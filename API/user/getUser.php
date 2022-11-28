@@ -1,9 +1,11 @@
 <?php
-require './MODEL/user.php';
+require __DIR__ . '/../../MODEL/user.php';
 
-//'localhost/EVOMATIC/API/user/getUser.php/id'
+//'localhost/evomatic/API/user/getUser.php/id'
 $parts = explode("/", $_SERVER["REQUEST_URI"]);
 
 $user = new User;
 
-json_encode($user->getUser($parts[5]));
+$result = $user->getUser($parts[5]);
+
+echo json_encode($result);

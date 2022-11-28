@@ -90,7 +90,7 @@ class User
 
         $stmt->execute();
 
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        return $stmt->rowCount();
     }
 
     public function changePassword($id, $email, $password, $newPassword)

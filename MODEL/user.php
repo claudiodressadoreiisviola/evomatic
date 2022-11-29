@@ -4,6 +4,8 @@ spl_autoload_register(function ($class) {
     require __DIR__ . "/../COMMON/$class.php";
 });
 
+require __DIR__ . '/../vendor/autoload.php';
+
 set_exception_handler("errorHandler::handleException");
 set_error_handler("errorHandler::handleError");
 
@@ -21,7 +23,7 @@ class User
     public function getUser($id)
     {
         $sql = "SELECT name, email
-            FROM account
+            FROM user
             WHERE id = :id";
 
         $stmt = $this->conn->prepare($sql);
@@ -34,7 +36,7 @@ class User
 
     public function deleteUser($id)
     {
-        $sql = "UPDATE account 
+        $sql = "UPDATE user 
             SET active = 0 
             WHERE id = :id";
 
@@ -47,10 +49,12 @@ class User
     public function resetPassword($id)
     {
         $date = date("d:m:Y h:i:s");
-        $password = "temporanea";
+
+        // Generazione della password randomica
+        $password = bin2hex(openssl_random_pseudo_bytes(4));
 
         // Update password con password temporanea
-        $sql = "UPDATE account
+        $sql = "UPDATE user
             SET password = :password
             WHERE id = :id";
 
@@ -80,7 +84,7 @@ class User
     public function login($id, $email, $password)
     {
         $sql = "SELECT count(:id)
-        FROM account 
+        FROM user 
         WHERE email = :email AND password = :password";
 
         $stmt = $this->conn->prepare($sql);
@@ -96,7 +100,7 @@ class User
     public function changePassword($id, $email, $password, $newPassword)
     {
         if ($this->login($id, $email, $password) == 0) {
-            $sql = "UPDATE account 
+            $sql = "UPDATE user 
             SET password = :newPassword
             WHERE email = :email AND password = :password";
 

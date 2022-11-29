@@ -5,11 +5,11 @@ class Connect
 
     public function __construct()
     {
-        $host = "localhost";
+        $host = "claudiodressadore.net";
         $port = "3306";
-        $db   = "testuser";
-        $user = "root";
-        $pass = "";
+        $db   = "paninara";
+        $user = "evomatic";
+        $pass = "evomatic2022";
 
         try {
             $this->dbConnection = new PDO(

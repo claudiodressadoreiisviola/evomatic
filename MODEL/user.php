@@ -4,8 +4,6 @@ spl_autoload_register(function ($class) {
     require __DIR__ . "/../COMMON/$class.php";
 });
 
-require __DIR__ . '/../vendor/autoload.php';
-
 set_exception_handler("errorHandler::handleException");
 set_error_handler("errorHandler::handleError");
 
@@ -62,7 +60,7 @@ class User
         $stmt->bindValue(':id', $id, PDO::PARAM_INT);
         $stmt->bindValue(':password', $password, PDO::PARAM_STR);
 
-        $firstQuery = $stmt->execute();
+        $stmt->execute();
 
         // Aggiunta alla tabella reset l'utente
         $sql = "INSERT INTO reset
@@ -76,9 +74,9 @@ class User
         $stmt->bindValue(':completed', date("d:m:Y h:i:s", strtotime($date . '+ 5 Days')), PDO::PARAM_STR);
         $stmt->bindValue(':completed', 0, PDO::PARAM_INT);
 
-        $secondQuery = $stmt->execute();
+        $stmt->execute();
 
-        return $firstQuery && $secondQuery;
+        return $password;
     }
 
     public function login($id, $email, $password)

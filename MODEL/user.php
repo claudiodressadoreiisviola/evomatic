@@ -81,14 +81,14 @@ class User
 
     public function login($id, $email, $password)
     {
-        $sql = "SELECT count(:id)
+        $sql = "SELECT id
         FROM user 
-        WHERE email = :email AND password = :password";
+        WHERE id = :id AND email = :email AND password = :password AND active = 1";
 
         $stmt = $this->conn->prepare($sql);
         $stmt->bindValue(':id', $id, PDO::PARAM_INT);
-        $stmt->bindValue(':password', $password, PDO::PARAM_STR);
         $stmt->bindValue(':email', $email, PDO::PARAM_STR);
+        $stmt->bindValue(':password', $password, PDO::PARAM_STR);
 
         $stmt->execute();
 
@@ -97,20 +97,19 @@ class User
 
     public function changePassword($id, $email, $password, $newPassword)
     {
-        if ($this->login($id, $email, $password) == 0) {
+        if ($this->login($id, $email, $password) == 1) {
             $sql = "UPDATE user 
             SET password = :newPassword
             WHERE email = :email AND password = :password";
 
             $stmt = $this->conn->prepare($sql);
-            $stmt->bindValue(':id', $id, PDO::PARAM_INT);
             $stmt->bindValue(':password', $password, PDO::PARAM_STR);
             $stmt->bindValue(':newPassword', $newPassword, PDO::PARAM_STR);
             $stmt->bindValue(':email', $email, PDO::PARAM_STR);
 
             $stmt->execute();
 
-            return $stmt->fetch(PDO::FETCH_ASSOC);
+            return $stmt->rowCount();
         }
     }
 }

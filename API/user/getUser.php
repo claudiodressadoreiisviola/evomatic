@@ -1,8 +1,13 @@
 <?php
 require __DIR__ . '/../../MODEL/user.php';
+header("Content-type: application/json; charset=UTF-8");
 
-//'localhost/evomatic/API/user/getUser.php/id'
 $parts = explode("/", $_SERVER["REQUEST_URI"]);
+
+if (count($parts) != 5) {
+    http_response_code(404);
+    echo json_encode(["message" => "Insert a valid ID"]);
+}
 
 $user = new User;
 

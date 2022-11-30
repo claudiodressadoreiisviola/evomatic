@@ -1,12 +1,19 @@
 <?php
 require __DIR__ . '/../../MODEL/user.php';
+header("Content-type: application/json; charset=UTF-8");
 
-//'localhost/evomatic/API/user/login.php/id/email/password'
-$parts = explode("/", $_SERVER["REQUEST_URI"]);
+$data = json_decode(file_get_contents("php://input"));
+
+if (empty($data->id) || empty($data->email) || empty($data->password)) {
+    http_response_code(400);
+    echo json_encode(["message" => "Fill every field"]);
+}
 
 $user = new User;
 
-if ($user->login($parts[5], $parts[6], $parts[7]) == 1)
-    echo json_encode([
-        "message" => "Logged in successfully"
-    ]);
+if ($user->login($data->id, $data->email, $data->password) == 1) {
+    echo json_encode(["message" => "Logged in successfully"]);
+} else {
+    http_response_code(400);
+    echo json_encode(["message" => "Bad credentials"]);
+}

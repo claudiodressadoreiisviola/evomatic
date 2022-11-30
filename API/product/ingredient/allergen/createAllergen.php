@@ -5,7 +5,7 @@ $parts = explode("/", $_SERVER["REQUEST_URI"]);
 
 $allergen = new Allergen;
 
-$result = $allergen->getAllergen($id);
+$result = $allergen->createAllergen($name);
 
 echo json_encode($result);
 ?>

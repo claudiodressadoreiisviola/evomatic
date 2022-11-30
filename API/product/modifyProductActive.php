@@ -5,6 +5,6 @@
 
     $product = new Product();
 
-    $result = $product->getProduct($id);
+    $result = $product->modifyProductActive($id,$active);
 
     echo json_encode($result);

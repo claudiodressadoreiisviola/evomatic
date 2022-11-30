@@ -5,6 +5,6 @@
 
     $product = new Product();
 
-    $result = $product->getProduct($id);
+    $result = $product->modifyProductQuantity($id,$quantity);
 
     echo json_encode($result);

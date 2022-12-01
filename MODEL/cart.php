@@ -53,6 +53,54 @@ class Cart
         return $stmt->rowCount();
     }
 
+    public function getCart($id)
+    {
+        $sql="SELECT name,price,description
+        FROM product
+        INNER JOIN cart_product 
+        ON product.id=cart_product.product
+        INNER JOIN cart
+        ON cart.id=cart_product.cart
+        WHERE cart.id=:id";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function changeQuantity($id_cart, $id_product,$quantity)
+    {
+        $sql="UPDATE cart_product
+            SET quantity = :quantity
+            WHERE cart = :id_cart AND product = :id_product";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindValue(':id_cart', $id_cart, PDO::PARAM_INT);
+        $stmt->bindValue(':id_product', $id_product, PDO::PARAM_INT);
+
+        $stmt->execute();
+
+        return $stmt->rowCount();
+    }
+
+    public function removeProduct($id_cart, $id_product)
+    {
+        $sql="DELETE FROM cart_product
+        WHERE cart = :id_cart AND product = :id_product";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindValue(':id_cart', $id_cart, PDO::PARAM_INT);
+        $stmt->bindValue(':id_product', $id_product, PDO::PARAM_INT);
+
+        $stmt->execute();
+
+        return $stmt->rowCount();
+    }
+
+     /*
     public function updatePrice()
     {
         $sql = "UPDATE cart
@@ -62,5 +110,7 @@ class Cart
          on cart_product.product=product.id
          set total=SUM(cart_product.quantity*product.price)";
         return $this->conn->query($sql);
-    }
+    }*/
+
+
 }

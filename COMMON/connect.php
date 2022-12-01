@@ -7,7 +7,7 @@ class Connect
     {
         $host = "claudiodressadore.net";
         $port = "3306";
-        $db   = "paninara";
+        $db   = "sandwiches";
         $user = "evomatic";
         $pass = "evomatic2022";
 

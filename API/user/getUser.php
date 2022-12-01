@@ -4,7 +4,7 @@ header("Content-type: application/json; charset=UTF-8");
 
 $parts = explode("/", $_SERVER["REQUEST_URI"]);
 
-if (count($parts) != 5) {
+if (count($parts) == 5) {
     http_response_code(404);
     echo json_encode(["message" => "Insert a valid ID"]);
 }

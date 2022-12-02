@@ -16,5 +16,5 @@ if ($cart->removeProduct($data->cart, $data->product)) {
     echo json_encode(["message" => "Product removed successfully"]);
 } else {
     http_response_code(400);
-    echo json_encode("message" => "Fill every field");
+    echo json_encode(["message" => "Fill every field"]);
 }

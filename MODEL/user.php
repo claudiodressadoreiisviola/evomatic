@@ -20,7 +20,7 @@ class User
 
     public function getUser($id)
     {
-        $sql = "SELECT name, email
+        $sql = "SELECT name, surname, email
             FROM user
             WHERE id = :id";
 

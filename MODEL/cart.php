@@ -89,7 +89,7 @@ class Cart
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function changeQuantity($id_cart, $id_product,$quantity)
+    public function changeQuantity($id_cart, $id_product,$newquantity)
     {
         $sql="UPDATE cart_product
             SET quantity = :new_quantity
@@ -98,6 +98,7 @@ class Cart
         $stmt = $this->conn->prepare($sql);
         $stmt->bindValue(':id_cart', $id_cart, PDO::PARAM_INT);
         $stmt->bindValue(':id_product', $id_product, PDO::PARAM_INT);
+        $stmt->bindValue(':new_quantity', $newquantity, PDO::PARAM_INT);
 
         $stmt->execute();
 

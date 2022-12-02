@@ -1,10 +1,23 @@
 <?php
-    require __DIR__ . '/../../MODELS/product.php';
+// API solo paninara
 
-    $parts = explode("/", $_SERVER["REQUEST_URI"]);
+require __DIR__ . '/../../MODEL/product.php';
+header("Content-type: application/json; charset=UTF-8");
 
-    $product = new Product();
+$data = json_decode(file_get_contents("php://input"));
 
-    $result = $product->modifyProductActive($id,$active);
+if (empty($data->id) || empty($data->active)) {
+    http_response_code(400);
+    echo json_encode(["message" => "Fill every field"]);
+    die();
+}
 
-    echo json_encode($result);
+$product = new Product();
+
+if ($product->modifyProductActive($data->id, $data->active) == 1) {
+    http_response_code(201);
+    echo json_encode(["message" => "Updated successfully"]);
+} else {
+    http_response_code(400);
+    echo json_encode(["message" => "Update unsuccessfull"]);
+}

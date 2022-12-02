@@ -23,7 +23,7 @@ class Cart
         //aggiungo riga per quell'utente alla tabella cart (andrebbe fatto solo una volta all'aggiunta del primo prodotto al carello quindi manca un if), altro problema è come reperire l'user
         //che sta facendo l'acquisto, forse con la getuser, ma per adesso lo passo al metodo.
         $sql = "INSERT INTO cart (user, total) 
-        VALUES(:id_user, 0)";
+        VALUES(:id_user)";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindValue(':id_user', $id_user, PDO::PARAM_INT);
         $stmt->execute();
@@ -32,6 +32,24 @@ class Cart
 
     public function addCartProduct($id_cart, $id_product, $quantity)
     {
+        $cart = $this->getCart($id_cart);
+
+        $cartProducts = array();
+        for($i = 0; $i < (count($cart)); $i++)
+        {
+            $cartProduct = array(
+                "product" => $cart[$i]["pid"]
+            );
+            array_push($cartProducts, $cartProduct);//po
+        }
+
+        for($i = 0; $i < count($cartProducts); $i++)
+        {
+            if($cartProducts[$i]["product"] == $id_product){
+                $statement = $this->changeQuantity($id_cart, $id_product, $quantity);
+                return $statement;
+            }
+        }
         $sql = "INSERT into cart_product (cart, product, quantity)
         values(:id_cart, :id_product, :quantity)";
         $stmt = $this->conn->prepare($sql);
@@ -55,7 +73,7 @@ class Cart
 
     public function getCart($id)
     {
-        $sql="SELECT name,price,description
+        $sql="SELECT product.id as pid ,name,price,description
         FROM product
         INNER JOIN cart_product 
         ON product.id=cart_product.product
@@ -74,7 +92,7 @@ class Cart
     public function changeQuantity($id_cart, $id_product,$quantity)
     {
         $sql="UPDATE cart_product
-            SET quantity = :quantity
+            SET quantity = :new_quantity
             WHERE cart = :id_cart AND product = :id_product";
 
         $stmt = $this->conn->prepare($sql);
@@ -112,5 +130,26 @@ class Cart
         return $this->conn->query($sql);
     }*/
 
+    public function removeAllProducts($id_cart){
+        $sql = "DELETE FROM cart_product
+        WHERE cart = :id_cart";
+        $stmt = $this->conn->prepare($sql);
+        $stmt -> bindValue(':id_cart', $id_cart, PDO::PARAM_INT);
 
+        return $stmt-> execute();
+    }
+
+    public function removeCart($id_cart)
+    {
+        $statement = $this->removeAllProducts($id_cart);
+        if(!$statement)
+            return 0;
+        $sql = "DELETE FROM cart WHERE id = :id_cart";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt -> bindValue(':id_cart', $id_cart, PDO::PARAM_INT);
+
+        $stmt->execute();
+        return $stmt->rowCount();
+    }
 }

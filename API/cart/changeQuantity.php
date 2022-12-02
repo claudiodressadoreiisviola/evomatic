@@ -16,5 +16,5 @@ if ($cart->changeQuantity($data->cart, $data->product, $data->quantity)) {
     echo json_encode(["message" => "Product added successfully"]);
 } else {
     http_response_code(400);
-    echo json_encode("message" => "Fill every field");
+    echo json_encode(["message" =>"Fill every field"]);
 }

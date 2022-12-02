@@ -1,4 +1,6 @@
 <?php
+// ERRATO -> API solo paninara
+
 require __DIR__ . '/../../MODEL/allergen.php';
 
 $parts = explode("/", $_SERVER["REQUEST_URI"]);

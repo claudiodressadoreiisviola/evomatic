@@ -20,30 +20,39 @@ class Allergen
 
     public function getArchiveAllergen() //Ritorna tutti gli allergeni.
     {
-        $query = 'SELECT * FROM ' . $this->table_name . ' a WHERE 1=1 ORDER BY a.name';
+        $query = "SELECT `name` 
+        FROM allergen a 
+        WHERE 1=1 
+        ORDER BY a.name";
 
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
 
-        return $stmt;
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function getAllergen($id) //Ritorna l'allergene in base al suo id.
     {
-        $query = 'SELECT * FROM ' . $this->table_name . ' a WHERE a.id = ' . $id;
+        $query = "SELECT `name` 
+        FROM allergen a 
+        WHERE a.id = :id";
 
         $stmt = $this->conn->prepare($query);
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
 
-        return $stmt;
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
     public function deleteAllergenFromAllIngredients($id) //Cancella l'allergene nella tabella molti a molti.
     {
-        $query = 'DELETE FROM ingredient_allergen WHERE allergen = ' . $id;
+        $query = "DELETE FROM product_allergen 
+        WHERE allergen = :id";
 
         $stmt = $this->conn->prepare($query);
-        $stmt->execute();
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+
+        return $stmt->execute();
     }
 
     public function deleteAllergen($id) //Cancella l'allergene dalla tabella allergen.
@@ -51,25 +60,36 @@ class Allergen
         $this->deleteAllergenFromAllIngredients($id); //Richiama il metodo per rimuovere l'allergene dalla tabella molti a molti (per permettermi poi di eliminarla dalla tabella allergen).
 
         //$query = 'DELETE a, ia FROM' . $this-> table_name . ' a INNER JOIN ingredients_allergens ia ON a.id = ia.allergens_id WHERE a.id = ' . $id;
-        $query = 'DELETE FROM ' . $this->table_name . ' WHERE id = ' . $id;
+        $query = "DELETE FROM allergen 
+        WHERE id = :id";
 
         $stmt = $this->conn->prepare($query);
-        $stmt->execute();
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+        
+        return $stmt->execute();
     }
 
     public function createAllergen($name) //Inserisce nella tabella un nuovo allergene.
     {
-        $query = 'INSERT INTO ' . $this->table_name . '(name) VALUES(\'' . $name . '\')';
+        $query = "INSERT INTO allergen a (name) 
+        VALUES (':name')";
 
         $stmt = $this->conn->prepare($query);
-        $stmt->execute();
+        $stmt->bindValue(':name', $name, PDO::PARAM_INT);
+
+        return $stmt->execute();
     }
 
     public function modifyAllergenName($id, $name) //Modifica il nome di un allergene.
     {
-        $query = 'UPDATE ' . $this->table_name . ' a SET a.name = \'' . $name . '\' WHERE a.id = ' . $id;
+        $query = "UPDATE allergen a 
+        SET a.name = :name 
+        WHERE a.id = :id";
 
         $stmt = $this->conn->prepare($query);
-        $stmt->execute();
+        $stmt->bindValue(':name', $name, PDO::PARAM_INT);
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+
+        return $stmt->execute();
     }
 }

@@ -22,7 +22,7 @@ class Cart
     {
         //aggiungo riga per quell'utente alla tabella cart (andrebbe fatto solo una volta all'aggiunta del primo prodotto al carello quindi manca un if), altro problema è come reperire l'user
         //che sta facendo l'acquisto, forse con la getuser, ma per adesso lo passo al metodo.
-        $sql = "INSERT INTO cart (user, total) 
+        $sql = "INSERT INTO cart (user) 
         VALUES(:id_user)";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindValue(':id_user', $id_user, PDO::PARAM_INT);

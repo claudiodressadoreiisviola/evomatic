@@ -1,22 +1,22 @@
-CREATE DATABASE sandwiches;
+CREATE DATABASE paninara;
 
-CREATE  TABLE sandwiches.allergen ( 
+CREATE  TABLE paninara.allergen ( 
 	id                   INT UNSIGNED NOT NULL   AUTO_INCREMENT  PRIMARY KEY,
 	name                 VARCHAR(64)  NOT NULL     
  );
 
-CREATE  TABLE sandwiches.break ( 
+CREATE  TABLE paninara.break ( 
 	id                   INT UNSIGNED NOT NULL   AUTO_INCREMENT  PRIMARY KEY,
 	`time`               TIME  NOT NULL     
  );
 
-CREATE  TABLE sandwiches.class ( 
+CREATE  TABLE paninara.class ( 
 	id                   INT UNSIGNED NOT NULL   AUTO_INCREMENT  PRIMARY KEY,
 	year                 INT UNSIGNED NOT NULL,
 	section              VARCHAR(1)  NOT NULL     
  );
 
-CREATE  TABLE sandwiches.ingredient ( 
+CREATE  TABLE paninara.ingredient ( 
 	id                   INT UNSIGNED NOT NULL   AUTO_INCREMENT  PRIMARY KEY,
 	name                 VARCHAR(64)  NOT NULL,
 	description          VARCHAR(128),
@@ -25,22 +25,22 @@ CREATE  TABLE sandwiches.ingredient (
 	quantity             INT UNSIGNED NOT NULL
  );
 
-CREATE  TABLE sandwiches.product_allergen ( 
+CREATE  TABLE paninara.product_allergen ( 
 	product              INT UNSIGNED NOT NULL,
 	allergen             INT UNSIGNED NOT NULL
  );
 
-CREATE  TABLE sandwiches.pickup ( 
+CREATE  TABLE paninara.pickup ( 
 	id                   INT UNSIGNED NOT NULL   AUTO_INCREMENT  PRIMARY KEY,
 	name                 VARCHAR(128)  NOT NULL     
  );
 
-CREATE  TABLE sandwiches.pickup_break ( 
+CREATE  TABLE paninara.pickup_break ( 
 	pickup               INT UNSIGNED NOT NULL,
 	break                INT UNSIGNED NOT NULL     
  );
 
-CREATE  TABLE sandwiches.product ( 
+CREATE  TABLE paninara.product ( 
 	id                   INT UNSIGNED NOT NULL   AUTO_INCREMENT  PRIMARY KEY,
 	name                 VARCHAR(64)  NOT NULL,
 	price                DECIMAL(4,2) UNSIGNED NOT NULL,
@@ -50,7 +50,7 @@ CREATE  TABLE sandwiches.product (
 	active               BOOLEAN  NOT NULL DEFAULT (TRUE)   
  );
 
-CREATE  TABLE sandwiches.nutritional_value ( 
+CREATE  TABLE paninara.nutritional_value ( 
 	id                   INT UNSIGNED NOT NULL   AUTO_INCREMENT  PRIMARY KEY,
 	kcal                 INT NOT NULL,
 	fats                 DECIMAL(4,2) NOT NULL,
@@ -62,22 +62,22 @@ CREATE  TABLE sandwiches.nutritional_value (
 	salt                 DECIMAL(4,2)
  );
 
-CREATE  TABLE sandwiches.product_ingredient ( 
+CREATE  TABLE paninara.product_ingredient ( 
 	product              INT UNSIGNED NOT NULL,
 	ingredient           INT UNSIGNED NOT NULL     
  );
 
-CREATE  TABLE sandwiches.`status` ( 
+CREATE  TABLE paninara.`status` ( 
 	id                   INT UNSIGNED NOT NULL   AUTO_INCREMENT  PRIMARY KEY,
 	description          VARCHAR(64)  NOT NULL     
  );
 
-CREATE  TABLE sandwiches.tag ( 
+CREATE  TABLE paninara.tag ( 
 	id                   INT UNSIGNED NOT NULL   AUTO_INCREMENT  PRIMARY KEY,
 	name                 VARCHAR(32)  NOT NULL     
  );
 
-CREATE  TABLE sandwiches.`user` ( 
+CREATE  TABLE paninara.`user` ( 
 	id                   INT UNSIGNED NOT NULL   AUTO_INCREMENT  PRIMARY KEY,
 	name                 VARCHAR(64)  NOT NULL,
 	surname              VARCHAR(64)  NOT NULL,
@@ -86,25 +86,26 @@ CREATE  TABLE sandwiches.`user` (
 	active               BOOLEAN  NOT NULL DEFAULT (TRUE)    
  );
 
- CREATE  TABLE sandwiches.user_class (
+ CREATE  TABLE paninara
+.user_class (
 	user                 INT UNSIGNED NOT NULL,
 	class                INT UNSIGNED NOT NULL,
 	`year`               YEAR NOT NULL
  );
 
-CREATE  TABLE sandwiches.cart ( 
+CREATE  TABLE paninara.cart ( 
 	`user`               INT UNSIGNED NOT NULL,
 	product              INT UNSIGNED NOT NULL,
 	quantity             INT UNSIGNED
  );
 
-CREATE  TABLE sandwiches.favourite ( 
+CREATE  TABLE paninara.favourite ( 
 	user                 INT UNSIGNED NOT NULL,
 	product              INT UNSIGNED NOT NULL,
 	created              TIMESTAMP   DEFAULT (CURRENT_TIMESTAMP)    
  );
 
-CREATE  TABLE sandwiches.offer ( 
+CREATE  TABLE paninara.offer ( 
 	id                   INT UNSIGNED NOT NULL   AUTO_INCREMENT  PRIMARY KEY,
 	price                DECIMAL(4,2) UNSIGNED NOT NULL,
 	`start`              TIMESTAMP  DEFAULT (CURRENT_TIMESTAMP)  NOT NULL,
@@ -112,12 +113,12 @@ CREATE  TABLE sandwiches.offer (
 	description          VARCHAR(128)       
  );
 
-CREATE  TABLE sandwiches.product_offer ( 
+CREATE  TABLE paninara.product_offer ( 
 	product              INT UNSIGNED NOT NULL,
 	offer                INT UNSIGNED NOT NULL  
  );
 
-CREATE  TABLE sandwiches.`order` ( 
+CREATE  TABLE paninara.`order` ( 
 	id                   INT UNSIGNED NOT NULL   AUTO_INCREMENT  PRIMARY KEY,
 	`user`               INT UNSIGNED NOT NULL,
 	created              TIMESTAMP  NOT NULL DEFAULT (CURRENT_TIMESTAMP),
@@ -127,17 +128,17 @@ CREATE  TABLE sandwiches.`order` (
 	json                 LONGTEXT
  );
 
-CREATE  TABLE sandwiches.product_order ( 
+CREATE  TABLE paninara.product_order ( 
 	product              INT UNSIGNED NOT NULL,
 	`order`              INT UNSIGNED NOT NULL
  );
 
-CREATE  TABLE sandwiches.product_tag ( 
+CREATE  TABLE paninara.product_tag ( 
 	product              INT UNSIGNED NOT NULL,
 	tag                  INT UNSIGNED NOT NULL    
  );
 
-CREATE  TABLE sandwiches.reset ( 
+CREATE  TABLE paninara.reset ( 
 	id                   INT UNSIGNED NOT NULL   AUTO_INCREMENT  PRIMARY KEY,
 	`user`               INT UNSIGNED NOT NULL,
 	password             VARCHAR(128)  NOT NULL,
@@ -146,50 +147,50 @@ CREATE  TABLE sandwiches.reset (
 	completed            BOOLEAN  NOT NULL DEFAULT (FALSE)
  );
 
-ALTER TABLE sandwiches.cart ADD CONSTRAINT fk_cart_product FOREIGN KEY ( product ) REFERENCES sandwiches.product ( id );
+ALTER TABLE paninara.cart ADD CONSTRAINT fk_cart_product FOREIGN KEY ( product ) REFERENCES paninara.product ( id );
 
-ALTER TABLE sandwiches.cart ADD CONSTRAINT fk_cart_user FOREIGN KEY ( `user` ) REFERENCES sandwiches.`user` ( id );
+ALTER TABLE paninara.cart ADD CONSTRAINT fk_cart_user FOREIGN KEY ( `user` ) REFERENCES paninara.`user` ( id );
 
-ALTER TABLE sandwiches.product_allergen ADD CONSTRAINT fk_product_allergen_product FOREIGN KEY ( product ) REFERENCES sandwiches.product ( id );
+ALTER TABLE paninara.product_allergen ADD CONSTRAINT fk_product_allergen_product FOREIGN KEY ( product ) REFERENCES paninara.product ( id );
 
-ALTER TABLE sandwiches.product_allergen ADD CONSTRAINT fk_product_allergen_allergen FOREIGN KEY ( allergen ) REFERENCES sandwiches.allergen ( id );
+ALTER TABLE paninara.product_allergen ADD CONSTRAINT fk_product_allergen_allergen FOREIGN KEY ( allergen ) REFERENCES paninara.allergen ( id );
 
-ALTER TABLE sandwiches.pickup_break ADD CONSTRAINT fk_pickup_break_pickup FOREIGN KEY ( pickup ) REFERENCES sandwiches.pickup ( id );
+ALTER TABLE paninara.pickup_break ADD CONSTRAINT fk_pickup_break_pickup FOREIGN KEY ( pickup ) REFERENCES paninara.pickup ( id );
 
-ALTER TABLE sandwiches.pickup_break ADD CONSTRAINT fk_pickup_break_break FOREIGN KEY ( `break` ) REFERENCES sandwiches.`break` ( id );
+ALTER TABLE paninara.pickup_break ADD CONSTRAINT fk_pickup_break_break FOREIGN KEY ( `break` ) REFERENCES paninara.`break` ( id );
 
-ALTER TABLE sandwiches.product_ingredient ADD CONSTRAINT fk_product_ingredient_product FOREIGN KEY ( product ) REFERENCES sandwiches.product ( id );
+ALTER TABLE paninara.product_ingredient ADD CONSTRAINT fk_product_ingredient_product FOREIGN KEY ( product ) REFERENCES paninara.product ( id );
 
-ALTER TABLE sandwiches.product_ingredient ADD CONSTRAINT fk_product_ingredient_ingredient FOREIGN KEY ( ingredient ) REFERENCES sandwiches.ingredient ( id );
+ALTER TABLE paninara.product_ingredient ADD CONSTRAINT fk_product_ingredient_ingredient FOREIGN KEY ( ingredient ) REFERENCES paninara.ingredient ( id );
 
-ALTER TABLE sandwiches.favourite ADD CONSTRAINT fk_favourite_user FOREIGN KEY ( `user` ) REFERENCES sandwiches.`user` ( id );
+ALTER TABLE paninara.favourite ADD CONSTRAINT fk_favourite_user FOREIGN KEY ( `user` ) REFERENCES paninara.`user` ( id );
 
-ALTER TABLE sandwiches.favourite ADD CONSTRAINT fk_favourite_product FOREIGN KEY ( product ) REFERENCES sandwiches.product ( id );
+ALTER TABLE paninara.favourite ADD CONSTRAINT fk_favourite_product FOREIGN KEY ( product ) REFERENCES paninara.product ( id );
 
-ALTER TABLE sandwiches.product_tag  ADD CONSTRAINT fk_product_tag_product FOREIGN KEY ( product ) REFERENCES sandwiches.product ( id );
+ALTER TABLE paninara.product_tag  ADD CONSTRAINT fk_product_tag_product FOREIGN KEY ( product ) REFERENCES paninara.product ( id );
 
-ALTER TABLE sandwiches.product_tag  ADD CONSTRAINT fk_product_tag_tag FOREIGN KEY ( tag ) REFERENCES sandwiches.tag ( id );
+ALTER TABLE paninara.product_tag  ADD CONSTRAINT fk_product_tag_tag FOREIGN KEY ( tag ) REFERENCES paninara.tag ( id );
 
-ALTER TABLE sandwiches.product_order  ADD CONSTRAINT fk_product_order_product FOREIGN KEY ( product ) REFERENCES sandwiches.product ( id );
+ALTER TABLE paninara.product_order  ADD CONSTRAINT fk_product_order_product FOREIGN KEY ( product ) REFERENCES paninara.product ( id );
 
-ALTER TABLE sandwiches.product_order  ADD CONSTRAINT fk_product_order_order FOREIGN KEY ( `order` ) REFERENCES sandwiches.`order` ( id );
+ALTER TABLE paninara.product_order  ADD CONSTRAINT fk_product_order_order FOREIGN KEY ( `order` ) REFERENCES paninara.`order` ( id );
 
-ALTER TABLE sandwiches.reset  ADD CONSTRAINT fk_reset_user FOREIGN KEY ( `user` ) REFERENCES sandwiches.`user` ( id );
+ALTER TABLE paninara.reset  ADD CONSTRAINT fk_reset_user FOREIGN KEY ( `user` ) REFERENCES paninara.`user` ( id );
 
-ALTER TABLE sandwiches.`order`  ADD CONSTRAINT fk_order_user FOREIGN KEY ( `user` ) REFERENCES sandwiches.`user` ( id );
+ALTER TABLE paninara.`order`  ADD CONSTRAINT fk_order_user FOREIGN KEY ( `user` ) REFERENCES paninara.`user` ( id );
 
-ALTER TABLE sandwiches.`order`  ADD CONSTRAINT fk_order_status FOREIGN KEY ( status ) REFERENCES sandwiches.status ( id );
+ALTER TABLE paninara.`order`  ADD CONSTRAINT fk_order_status FOREIGN KEY ( status ) REFERENCES paninara.status ( id );
 
-ALTER TABLE sandwiches.`order`  ADD CONSTRAINT fk_order_pickup FOREIGN KEY ( pickup ) REFERENCES sandwiches.pickup ( id );
+ALTER TABLE paninara.`order`  ADD CONSTRAINT fk_order_pickup FOREIGN KEY ( pickup ) REFERENCES paninara.pickup ( id );
 
-ALTER TABLE sandwiches.`order`  ADD CONSTRAINT fk_order_break FOREIGN KEY ( break ) REFERENCES sandwiches.break ( id );
+ALTER TABLE paninara.`order`  ADD CONSTRAINT fk_order_break FOREIGN KEY ( break ) REFERENCES paninara.break ( id );
 
-ALTER TABLE sandwiches.product  ADD CONSTRAINT fk_product_nutritional_value FOREIGN KEY ( nutritional_value ) REFERENCES sandwiches.nutritional_value ( id );
+ALTER TABLE paninara.product  ADD CONSTRAINT fk_product_nutritional_value FOREIGN KEY ( nutritional_value ) REFERENCES paninara.nutritional_value ( id );
 
-ALTER TABLE sandwiches.user_class  ADD CONSTRAINT fk_user_class_user FOREIGN KEY ( `user` ) REFERENCES sandwiches.`user` ( id );
+ALTER TABLE paninara.user_class  ADD CONSTRAINT fk_user_class_user FOREIGN KEY ( `user` ) REFERENCES paninara.`user` ( id );
 
-ALTER TABLE sandwiches.user_class  ADD CONSTRAINT fk_user_class_class FOREIGN KEY ( class ) REFERENCES sandwiches.class ( id );
+ALTER TABLE paninara.user_class  ADD CONSTRAINT fk_user_class_class FOREIGN KEY ( class ) REFERENCES paninara.class ( id );
 
-ALTER TABLE sandwiches.product_offer ADD CONSTRAINT fk_product_offer_product FOREIGN KEY ( product ) REFERENCES sandwiches.product ( id );
+ALTER TABLE paninara.product_offer ADD CONSTRAINT fk_product_offer_product FOREIGN KEY ( product ) REFERENCES paninara.product ( id );
 
-ALTER TABLE sandwiches.product_offer  ADD CONSTRAINT fk_product_offer_offer FOREIGN KEY ( offer ) REFERENCES sandwiches.offer ( id );
+ALTER TABLE paninara.product_offer  ADD CONSTRAINT fk_product_offer_offer FOREIGN KEY ( offer ) REFERENCES paninara.offer ( id );

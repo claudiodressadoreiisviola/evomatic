@@ -9,6 +9,7 @@ set_error_handler("errorHandler::handleError");
 
 class Product
 {
+    private $table_name = "product";
     private PDO $conn;
     private Connect $db;
 

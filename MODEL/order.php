@@ -134,7 +134,7 @@ class Order
 
     function getOrderProduct($order_id) // Ottiene l'ordine con l'id passato alla funzione                   ???
     {
-        $query = "SELECT p.id, p.name, p.description , po.quantity, p.price  FROM `order` o
+        $query = "SELECT p.id, p.name, p.description , p.quantity, p.price  FROM `order` o
         INNER JOIN product_order po on o.id = po.order
         INNER JOIN product p on po.product = p.id
         WHERE o.id = :order_id";

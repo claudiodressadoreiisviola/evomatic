@@ -143,6 +143,6 @@ class Order
         $stmt->bindValue(':order_id', $order_id, PDO::PARAM_INT);
         $stmt->execute();
 
-        return $stmt->fetchall(PDO::FETCH_ASSOC);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }

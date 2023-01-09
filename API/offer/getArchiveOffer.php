@@ -19,8 +19,8 @@ for ($i = 0; $i < (count($result)); $i++) {
 }
 
 if (empty($productsCart)) {
-    var_dump(http_response_code(404));
+    http_response_code(404);
 } else {
     echo json_encode($productsCart);
-    var_dump(http_response_code(200));
+    http_response_code(200);
 }

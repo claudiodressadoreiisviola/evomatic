@@ -11,9 +11,10 @@ if (empty($data->email) || empty($data->password)) {
 }
 
 $user = new User();
+$id = $user->login($data->email, $data->password);
 
-if ($user->login($data->email, $data->password) == 1) {
-    echo json_encode(["message" => "Logged in successfully"]);
+if ($id > 0) {
+    echo json_encode(["message" => "Logged in successfully!", "userID" => $id]);
 } else {
     http_response_code(400);
     echo json_encode(["message" => "Bad credentials"]);

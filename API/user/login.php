@@ -14,8 +14,8 @@ $user = new User();
 $id = $user->login($data->email, $data->password);
 
 if ($id > 0) {
-    echo json_encode(["message" => "Logged in successfully!", "userID" => $id]);
+    echo json_encode($id);
 } else {
     http_response_code(400);
-    echo json_encode(["message" => "Bad credentials"]);
+    echo json_encode(["id" => "-1"]);
 }

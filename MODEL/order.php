@@ -117,7 +117,7 @@ class Order
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    function getOrder($order_id) // Ottiene l'ordine con l'id passato alla funzione                   ???
+    function getOrder($order_id) // Ottiene l'ordine con l'id passato alla funzione
     {
         $query = "SELECT o.user, o.created, p.name, b.time, s.description FROM `order` o
         INNER JOIN `status` s on o.status = s.id
@@ -132,9 +132,9 @@ class Order
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    function getOrderProduct($order_id) // Ottiene l'ordine con l'id passato alla funzione                   ???
+    function getOrderProduct($order_id) // Ottiene l'ordine con l'id passato alla funzione
     {
-        $query = "SELECT p.id, p.name, p.description , p.quantity, p.price  FROM `order` o
+        $query = "SELECT p.id, p.name, p.description , count(:order_id), p.price  FROM `order` o
         INNER JOIN product_order po on o.id = po.order
         INNER JOIN product p on po.product = p.id
         WHERE o.id = :order_id";
@@ -143,6 +143,6 @@ class Order
         $stmt->bindValue(':order_id', $order_id, PDO::PARAM_INT);
         $stmt->execute();
 
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 }

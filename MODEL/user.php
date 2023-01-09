@@ -97,8 +97,8 @@ class User
 
     public function changePassword($email, $newPassword)
     {
-        if ($this->login($email, $password) > 0) {
-            $sql = "UPDATE `user` 
+        if ($this->login($email, $newPassword) > 0) {
+            $sql = "UPDATE user 
             SET password = :newPassword
             WHERE email = :email";
 

@@ -18,6 +18,8 @@ class Cart
         $this->conn = $this->db->getConnection();
     }
 
+
+    // Da rivedere per l'aggiunta di prodotti gia' presenti nel carrello (se gia' presente devi updatare la quantita')
     public function addCart($id_user, $id_product, $quantity)
     {
         //aggiungo riga per quell'utente alla tabella cart (andrebbe fatto solo una volta all'aggiunta del primo prodotto al carello quindi manca un if), altro problema è come reperire l'user
@@ -75,7 +77,7 @@ class Cart
 
     public function getCart($id) //ritorna l'id dei prodotti
     {
-        $sql="SELECT product.id as id
+        $sql = "SELECT product.id as id
         FROM product 
         INNER JOIN cart
         ON product.id = cart.product
@@ -93,7 +95,7 @@ class Cart
 
     public function changeQuantity($id_user, $id_product, $new_quantity)
     {
-        $sql= "UPDATE cart
+        $sql = "UPDATE cart
             SET quantity = :new_quantity
             WHERE `user` = :id_user AND product = :id_product";
 
@@ -109,7 +111,7 @@ class Cart
 
     public function removeProduct($id_user, $id_product)
     {
-        $sql="DELETE FROM cart
+        $sql = "DELETE FROM cart
         WHERE `user` = :id_user AND product = :id_product";
 
         $stmt = $this->conn->prepare($sql);
@@ -121,36 +123,27 @@ class Cart
         return $stmt->rowCount();
     }
 
-     /*
-    public function updatePrice()
+    // Rimuovi dalla tabella cart_product
+    public function removeAllProducts($id_user)
     {
-        $sql = "UPDATE cart
-         inner join cart_product
-         on cart.id=cart_product.cart
-         inner join product
-         on cart_product.product=product.id
-         set total=SUM(cart_product.quantity*product.price)";
-        return $this->conn->query($sql);
-    }*/
-
-    public function removeAllProducts($id_user){
         $sql = "DELETE FROM cart
         WHERE `user` = :id_user";
         $stmt = $this->conn->prepare($sql);
-        $stmt -> bindValue(':id_user', $id_user, PDO::PARAM_INT);
+        $stmt->bindValue(':id_user', $id_user, PDO::PARAM_INT);
 
-        return $stmt-> execute();
+        return $stmt->execute();
     }
 
+    // Rimuovi dalla tabella cart
     public function removeCart($id_user)
     {
         $statement = $this->removeAllProducts($id_user);
-        if(!$statement)
+        if (!$statement)
             return 0;
         $sql = "DELETE FROM cart WHERE `user` = :id_user";
 
         $stmt = $this->conn->prepare($sql);
-        $stmt -> bindValue(':id_user', $id_user, PDO::PARAM_INT);
+        $stmt->bindValue(':id_user', $id_user, PDO::PARAM_INT);
 
         $stmt->execute();
         return $stmt->rowCount();

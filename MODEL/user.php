@@ -79,7 +79,7 @@ class User
         return $password;
     }
 
-    public function login($id, $email, $password)
+    public function login($email, $password)
     {
         $sql = "SELECT id
         FROM `user`
@@ -87,24 +87,22 @@ class User
         AND password = :password AND active = 1";
 
         $stmt = $this->conn->prepare($sql);
-        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
         $stmt->bindValue(':email', $email, PDO::PARAM_STR);
         $stmt->bindValue(':password', $password, PDO::PARAM_STR);
 
         $stmt->execute();
 
-        return $stmt->rowCount();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function changePassword($id, $email, $password, $newPassword)
+    public function changePassword($email, $newPassword)
     {
-        if ($this->login($id, $email, $password) == 1) {
+        if ($this->login($email, $password) == 1) {
             $sql = "UPDATE user 
             SET password = :newPassword
-            WHERE email = :email AND password = :password";
+            WHERE email = :email;
 
             $stmt = $this->conn->prepare($sql);
-            $stmt->bindValue(':password', $password, PDO::PARAM_STR);
             $stmt->bindValue(':newPassword', $newPassword, PDO::PARAM_STR);
             $stmt->bindValue(':email', $email, PDO::PARAM_STR);
 

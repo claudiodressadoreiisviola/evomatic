@@ -98,9 +98,9 @@ class User
     public function changePassword($email, $newPassword)
     {
         if ($this->login($email, $password) > 0) {
-            $sql = "UPDATE user 
+            $sql = "UPDATE `user` 
             SET password = :newPassword
-            WHERE email = :email;
+            WHERE email = :email";
 
             $stmt = $this->conn->prepare($sql);
             $stmt->bindValue(':newPassword', $newPassword, PDO::PARAM_STR);

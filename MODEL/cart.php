@@ -34,42 +34,34 @@ class Cart
         return $stmt->rowCount();
     }
 
-    // public function addCartProduct($id_cart, $id_product, $quantity)
-    // {
-    //     $cart = $this->getCart($id_cart); //??
-
-    //     $cartProducts = array();
-    //     for($i = 0; $i < (count($cart)); $i++)
-    //     {
-    //         $cartProduct = array(
-    //             "product" => $cart[$i]["pid"]
-    //         );
-    //         array_push($cartProducts, $cartProduct);//po
-    //     }
-
-    //     for($i = 0; $i < count($cartProducts); $i++)
-    //     {
-    //         if($cartProducts[$i]["product"] == $id_product){
-    //             $statement = $this->changeQuantity($id_cart, $id_product, $quantity);
-    //             return $statement;
-    //         }
-    //     }
-    //     $sql = "INSERT into cart_product (cart, product, quantity)
-    //     values(:id_cart, :id_product, :quantity)";
-    //     $stmt = $this->conn->prepare($sql);
-    //     $stmt->bindValue(':id_cart', $id_cart, PDO::PARAM_INT);
-    //     $stmt->bindValue(':id_product', $id_product, PDO::PARAM_INT);
-    //     $stmt->bindValue(':quantity', $quantity, PDO::PARAM_INT);
-    //     $stmt->execute();
-    //     return $stmt->rowCount();
-    // }
-
-    public function updateQuantity($quantity)
+    public function addCartProduct($id_user, $id_product, $quantity)
     {
-        $sql = "UPDATE product 
-        set quantity=(quantity-:quantity)
-        where quantity>0";
+        $cart = $this->getCart($id_user);
+        for($i = 0; $i < count($cart); $i++)
+        {
+            if($cart[$i]["id"] == $id_product){
+                $statement = $this->updateQuantity($id_user, $id_product, $quantity);
+                return $statement;
+            }
+        }
+        $sql = "INSERT into cart (`user`, product, quantity)
+        values(:id_user, :id_product, :quantity)";
         $stmt = $this->conn->prepare($sql);
+        $stmt->bindValue(':id_user', $id_user, PDO::PARAM_INT);
+        $stmt->bindValue(':id_product', $id_product, PDO::PARAM_INT);
+        $stmt->bindValue(':quantity', $quantity, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->rowCount();
+    }
+
+    public function updateQuantity($id_user, $id_product, $quantity)
+    {
+        $sql = "UPDATE cart 
+        set quantity = quantity + :quantity
+        where `user` = :id_user AND product = :id_product";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindValue(':id_user', $id_user, PDO::PARAM_INT);
+        $stmt->bindValue(':id_product', $id_product, PDO::PARAM_INT);
         $stmt->bindValue(':quantity', $quantity, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->rowCount();

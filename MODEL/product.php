@@ -40,12 +40,13 @@ class Product
 
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
-
+    
     public function getProduct($id) //Ritorna il prodotto in base al suo id.
     {
-        $query = 'SELECT name, price, description FROM ' . $this->table_name . ' p WHERE p.id = ' . $id;
+        $query = 'SELECT `name` , price, `description` FROM product p WHERE p.id = :id';
 
         $stmt = $this->conn->prepare($query);
+        $stmt->bindValue(':id',$id,PDO::PARAM_INT);
         $stmt->execute();
 
         return $stmt->fetch(PDO::FETCH_ASSOC);

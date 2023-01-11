@@ -360,7 +360,7 @@ VALUES
 (2, 2);
 
 
-INSERT INTO product_tag(product, tag)
+INSERT INTO sandwiches.product_tag(product, tag)
 VALUES
 (1, 1),
 (2, 1),

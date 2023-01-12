@@ -35,7 +35,7 @@ class Order
     public function deleteOrder($id)
     {
         $sql = "UPDATE `order`
-                SET `status` = 4
+                SET `status` = 3
                 WHERE id = :id";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindValue(':id', $id, PDO::PARAM_INT);

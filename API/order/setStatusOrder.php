@@ -12,7 +12,7 @@ if (empty($data->id) || empty($data->status)) {
 
 $order = new Order();
 
-if ($order->setStatusOrder($data->id, $data->new_status) == 1) {
+if ($order->setStatusOrder($data->id, $data->status) == 1) {
     http_response_code(201);
     echo json_encode(["message" => "Updated successfully"]);
 } else {

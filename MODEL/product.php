@@ -65,7 +65,7 @@ class Product
     public function getProductIngredients($id) //Ritorna gli ingredienti di un prodotto.
     {
         $query = 'SELECT DISTINCT a.id, a.name FROM ' . $this->table_name .' p INNER JOIN product_allergen pa ON p.id = pa.product INNER JOIN allergen a ON a.id = pa.allergen WHERE p.id = ' . $id . ' ORDER BY a.name';
-
+    
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
 

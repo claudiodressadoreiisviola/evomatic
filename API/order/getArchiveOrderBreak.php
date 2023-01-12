@@ -1,5 +1,6 @@
 <?php
-require __DIR__ . "/../../MODEL/order.php";     //DA MODIFICARE
+require __DIR__ . "/../../MODEL/order.php";
+header("Content-type: application/json; charset=UTF-8");
 
 $parts = explode("/", $_SERVER["REQUEST_URI"]);
 

@@ -16,5 +16,5 @@ for($i=0; $i<(count($result));$i++)
     $productsCart[$i] = $resultProd;
 }
 
-http_status(200);
-echo josn_encode($productsCart);
+http_response_code(200);
+echo json_encode($productsCart);

@@ -18,12 +18,13 @@ class Offer
         $this->conn = $this->db->getConnection();
     }
 
-    public function getOffer($id)
+    public function getOffer($id) //ritorna nome del prodotto, prezzo, data di expiry, descrizione offerta 
     {
-        // Da rivedere la query
-        $sql = "SELECT id,price,expiry,description
-            FROM offer
-            WHERE id = :id";
+        $sql = "SELECT p.name,o.price,o.expiry,o.description 
+            FROM offer o
+            INNER JOIN product_offer po ON po.offer = o.id
+            INNER JOIN product p ON p.id = po.product
+            WHERE o.id = :id";
 
         $stmt = $this->conn->prepare($sql);
         $stmt->bindValue(':id', $id, PDO::PARAM_INT);
@@ -33,11 +34,12 @@ class Offer
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function getArchiveOffer()
+    public function getArchiveOffer() //ritorna nome del prodotto, prezzo, data di expiry, descrizione offerta
     {
-        // Da rivedere la query
-        $sql = "SELECT id,price,expiry,description
-            FROM offer
+        $sql = "SELECT p.name,o.price,o.expiry,o.description 
+            FROM offer o
+            INNER JOIN product_offer po ON po.offer = o.id
+            INNER JOIN product p ON p.id = po.product
             WHERE 1=1";
 
         $stmt = $this->conn->prepare($sql);

@@ -46,4 +46,18 @@ class Offer
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function getCurrentOffers()
+    {
+        $sql= " select product.name, product.id , offer.price , offer.description 
+        from product 
+        inner join product_offer on product.id = product_offer.product 
+        inner join offer on offer.id = product_offer.offer 
+        where (offer.`start` < CURRENT_TIMESTAMP()) and (offer.expiry > CURRENT_TIMESTAMP())  ";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

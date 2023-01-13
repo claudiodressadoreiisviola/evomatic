@@ -22,6 +22,7 @@ for ($i = 0; $i < (count($result)); $i++) {
     $archiveFavourite = array(
         "id" => $result[$i]["id"],
         "name" => $resultProd["name"],
+        "description" => $resultProd["description"],
         "price" => $resultProd["price"]
     );
     array_push($archiveFavourites, $archiveFavourite);

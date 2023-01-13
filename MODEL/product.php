@@ -21,7 +21,7 @@ class Product
 
     public function getArchiveProduct() //Ritorna tutti i prodotti.
     {
-        $query = 'SELECT name, price, description, quantity FROM ' . $this->table_name . ' p WHERE 1=1 ORDER BY p.name';
+        $query = 'SELECT name, price, description, quantity, id FROM ' . $this->table_name . ' p WHERE 1=1 ORDER BY p.name';
 
         $stmt = $this->conn->prepare($query);
         $stmt->execute();

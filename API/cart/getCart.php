@@ -8,7 +8,7 @@ $parts = explode("/", $_SERVER["REQUEST_URI"]);
 if (empty($parts[5]))
 {
     http_response_code(400);
-    echo json_encode(["message" => ]);
+    echo json_encode(["message" => []]);
 }
 
 $query = new Cart;

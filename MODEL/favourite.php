@@ -20,7 +20,7 @@ class Favourite
 
     public function getArchiveFavourite($id)
     {
-        $sql = "SELECT product.name as pname, product.id, user.email as em
+        $sql = "SELECT product.name as pname, product.id as id, user.id as `uid`
                 FROM favourite
                 INNER JOIN product ON product.id = favourite.product
                 INNER JOIN user ON user.id = favourite.`user`
@@ -44,8 +44,8 @@ class Favourite
         for ($i = 0; $i < (count($favourite)); $i++) {
             $archiveFavourite = array(
                 "product" => $favourite[$i]["pname"],
-                "product_id" => $favourite[$i]["id"],
-                "user" => $favourite[$i]["em"]
+                "product_id" => $favourite[$i]["pid"],
+                "user" => $favourite[$i]["uid"]
             );
             array_push($archiveFavourites, $archiveFavourite);
         }

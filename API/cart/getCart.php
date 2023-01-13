@@ -5,12 +5,6 @@ header("Content-type:application/json;charset=UTF-8");
 
 $parts = explode("/", $_SERVER["REQUEST_URI"]);
 
-if (empty($parts[5]))
-{
-    http_response_code(400);
-    echo json_encode(["message" => []]);
-}
-
 $query = new Cart;
 $result = $query->getCart($parts[5]);
 

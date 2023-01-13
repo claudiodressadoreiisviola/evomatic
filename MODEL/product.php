@@ -9,7 +9,6 @@ set_error_handler("errorHandler::handleError");
 
 class Product
 {
-    private $table_name = "product";
     private PDO $conn;
     private Connect $db;
 
@@ -21,7 +20,10 @@ class Product
 
     public function getArchiveProduct() //Ritorna tutti i prodotti.
     {
-        $query = 'SELECT name, price, description, quantity, id FROM ' . $this->table_name . ' p WHERE 1=1 ORDER BY p.name';
+        $query = "SELECT id,name, price, description, quantity 
+        FROM product p 
+        WHERE 1=1 
+        ORDER BY p.name";
 
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
@@ -31,7 +33,10 @@ class Product
 
     public function getNutritionalValue($id)
     {
-        $query = 'SELECT kcal, fats, saturated_fats, carbohydrates, sugars, proteins, fiber, salt FROM nutritional_value INNER JOIN product on product.nutritional_value = nutritional_value.id WHERE nutritional_value.id = :id';
+        $query = "SELECT kcal, fats, saturated_fats, carbohydrates, sugars, proteins, fiber, salt 
+        FROM nutritional_value 
+        INNER JOIN product on product.nutritional_value = nutritional_value.id 
+        WHERE nutritional_value.id = :id";
 
         $stmt = $this->conn->prepare($query);
         $stmt->bindValue(':id', $id, PDO::PARAM_INT);
@@ -43,7 +48,9 @@ class Product
     
     public function getProduct($id) //Ritorna il prodotto in base al suo id.
     {
-        $query = 'SELECT `name` , price, `description` FROM product p WHERE p.id = :id';
+        $query = "SELECT `name` , price, `description` 
+        FROM product p 
+        WHERE p.id = :id";
 
         $stmt = $this->conn->prepare($query);
         $stmt->bindValue(':id',$id,PDO::PARAM_INT);
@@ -54,9 +61,14 @@ class Product
 
     public function getProductAllergens($id) //Ritorna gli allergeni di un prodotto.
     {
-        $query = 'SELECT DISTINCT a.id, a.name FROM ' . $this->table_name .' p INNER JOIN product_allergen pa ON p.id = pa.product INNER JOIN allergen a ON a.id = pa.allergen WHERE p.id = ' . $id . ' ORDER BY a.name';
+        $query = "SELECT DISTINCT a.id, a.name 
+        FROM product p 
+        INNER JOIN product_allergen pa ON p.id = pa.product 
+        INNER JOIN allergen a ON a.id = pa.allergen 
+        WHERE p.id = :id ORDER BY a.name";
 
         $stmt = $this->conn->prepare($query);
+        $stmt->bindValue(":id", $id, PDO::PARAM_INT);
         $stmt->execute();
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -64,9 +76,15 @@ class Product
 
     public function getProductIngredients($id) //Ritorna gli ingredienti di un prodotto.
     {
-        $query = 'SELECT DISTINCT a.id, a.name FROM ' . $this->table_name .' p INNER JOIN product_allergen pa ON p.id = pa.product INNER JOIN allergen a ON a.id = pa.allergen WHERE p.id = ' . $id . ' ORDER BY a.name';
-    
+        $query = "SELECT DISTINCT ingredient.id, ingredient.name 
+        FROM product p 
+        INNER JOIN product_ingredient ON p.id = product_ingredient.product 
+        INNER JOIN ingredient ON ingredient.id = product_ingredient.ingredient
+        WHERE p.id = :id 
+        ORDER BY ingredient.name";
+
         $stmt = $this->conn->prepare($query);
+        $stmt->bindValue(":id", $id, PDO::PARAM_INT);
         $stmt->execute();
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -74,9 +92,15 @@ class Product
 
     public function getProductTags($id) //Ritorna i tag di un prodotto.
     {
-        $query = 'SELECT t.id, t.name FROM ' . $this->table_name . ' p INNER JOIN product_tag pt ON p.id = pt.product INNER JOIN tag t ON pt.tag = t.id WHERE p.id = ' . $id . ' ORDER BY t.name';
+        $query = "SELECT t.id, t.name 
+        FROM product p 
+        INNER JOIN product_tag pt ON p.id = pt.product 
+        INNER JOIN tag t ON pt.tag = t.id 
+        WHERE p.id = :id 
+        ORDER BY t.name";
 
         $stmt = $this->conn->prepare($query);
+        $stmt->bindValue(":id", $id, PDO::PARAM_INT);
         $stmt->execute();
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);

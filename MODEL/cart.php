@@ -69,11 +69,13 @@ class Cart
 
     public function getCart($id) //ritorna l'id dei prodotti
     {
-        $sql = "SELECT product.id AS id, product.`name` AS `name`, cart.quantity AS quantity
+        $sql = "SELECT product.id as id
         FROM product 
-        INNER JOIN cart ON product.id = cart.product
-        INNER JOIN `user` ON `user`.id = cart.`user`
-        WHERE `user`.id = :id AND `user`.active = 1";
+        INNER JOIN cart
+        ON product.id = cart.product
+        INNER JOIN `user`
+        ON `user`.id = cart.`user`
+        WHERE `user`.id = :id";
 
         $stmt = $this->conn->prepare($sql);
         $stmt->bindValue(':id', $id, PDO::PARAM_INT);

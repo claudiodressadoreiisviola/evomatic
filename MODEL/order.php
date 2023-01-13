@@ -50,7 +50,7 @@ class Order
                 INNER JOIN pickup ON pickup.id = `order`.pickup
                 INNER JOIN `break` ON break.id = `order`.break
                 INNER JOIN `status` ON status.id = `order`.status
-                WHERE `status` = :stat";
+                WHERE `status` = :stat AND user.active = 1";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindValue(':stat', $status, PDO::PARAM_INT);
         $stmt->execute();
@@ -108,7 +108,7 @@ class Order
         INNER JOIN `status` s on o.`status` = s.id
         INNER JOIN `break` b on o.`break` = b.id
         INNER JOIN pickup p on o.pickup = p.id
-        WHERE user = :id";
+        WHERE user = :id AND user.active = 1";
 
         $stmt = $this->conn->prepare($query);
         $stmt->bindValue(':id', $id, PDO::PARAM_INT);
@@ -123,7 +123,8 @@ class Order
         INNER JOIN `status` s on o.status = s.id
         INNER JOIN `break` b on o.break = b.id
         INNER JOIN pickup p on o.pickup = p.id
-        WHERE o.id = :order_id";
+        INNER JOIN user u on u.id = o.id
+        WHERE o.id = :order_id AND u.active = 1";
 
         $stmt = $this->conn->prepare($query);
         $stmt->bindValue(':order_id', $order_id, PDO::PARAM_INT);
@@ -134,7 +135,7 @@ class Order
 
     function getOrderProduct($order_id) // Ottiene l'ordine con l'id passato alla funzione
     {
-        $query = "SELECT p.id, p.name, p.description , po.quantity , p.price  FROM `order` o
+        $query = "SELECT p.id, p.name, p.description, po.quantity, p.price  FROM `order` o
         INNER JOIN product_order po on o.id = po.order
         INNER JOIN product p on po.product = p.id
         WHERE o.id = :order_id";

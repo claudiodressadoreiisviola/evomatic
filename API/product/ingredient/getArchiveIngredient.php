@@ -1,9 +1,6 @@
 <?php
-// ERRATO -> API solo paninara
-
 require __DIR__ . '/../../../MODEL/ingredient.php';
-
-$parts = explode("/", $_SERVER["REQUEST_URI"]);
+header("Content-type: application/json; charset=UTF-8");
 
 $ingredient = new Ingredient;
 

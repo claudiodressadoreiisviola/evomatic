@@ -19,8 +19,8 @@ for ($i = 0; $i < (count($result)); $i++) {
     $order = array(
         "id" =>  $result[$i]["id"],
         "created" => $result[$i]["created"],
-        "pickup" => $result[$i]["time"],
-        "break" => $result[$i]["name"],
+        "break" => $result[$i]["time"],
+        "pickup" => $result[$i]["name"],
         "status" => $result[$i]["description"]
     );
     array_push($orders, $order);

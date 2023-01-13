@@ -22,7 +22,7 @@ class User
     {
         $sql = "SELECT name, surname, email
             FROM user
-            WHERE id = :id";
+            WHERE id = :id AND active = 1";
 
         $stmt = $this->conn->prepare($sql);
         $stmt->bindValue(':id', $id, PDO::PARAM_INT);
@@ -34,9 +34,14 @@ class User
 
     public function deleteUser($id)
     {
-        $sql = "UPDATE user 
-            SET active = 0 
-            WHERE id = :id";
+        $user = $this->getUser($id);
+
+        if ($user == null)
+            return false;
+
+        $sql = "UPDATE user
+        SET active = 0
+        WHERE  id = :id";
 
         $stmt = $this->conn->prepare($sql);
         $stmt->bindValue(':id', $id, PDO::PARAM_INT);
@@ -54,7 +59,7 @@ class User
         // Update password con password temporanea
         $sql = "UPDATE user
             SET password = :password
-            WHERE id = :id";
+            WHERE id = :id AND active = 1";
 
         $stmt = $this->conn->prepare($sql);
         $stmt->bindValue(':id', $id, PDO::PARAM_INT);
@@ -95,14 +100,15 @@ class User
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function changePassword($email, $newPassword)
+    public function changePassword($email, $oldPassword, $newPassword)
     {
-            $sql = "UPDATE user 
-            SET password = :newPassword
-            WHERE email = :email";
+            $sql = "update user
+            set password = :newPassword
+            where email = :email AND password = :oldPassword;";
 
             $stmt = $this->conn->prepare($sql);
             $stmt->bindValue(':newPassword', $newPassword, PDO::PARAM_STR);
+            $stmt->bindValue(':oldPassword', $oldPassword, PDO::PARAM_STR);
             $stmt->bindValue(':email', $email, PDO::PARAM_STR);
 
             $stmt->execute();

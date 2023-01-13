@@ -12,11 +12,9 @@ if (empty($parts[5])) {
 
 $user = new User();
 
-if ($result = $user->deleteUser($parts[5]) != false) {
+if ($result = $user->deleteUser($parts[5])) {
     echo json_encode($result);
 } else {
     http_response_code(400);
     echo json_encode(["message" => "User not found"]);
 }
-
-// DA FINIRE CON LA COMPLETA ELIMINAZIONE DELLA PRESENZA DELL'ACCOUNT

@@ -18,15 +18,18 @@ class Ingredient
         $this->conn = $this->db->getConnection();
     }
 
-    // public function getArchiveIngredient() //Ritorna tutti gli ingredienti.
-    // {
-    //     $query = 'SELECT * FROM ' . $this->table_name . ' i WHERE 1=1 ORDER BY i.name';
+    public function getArchiveIngredient() //Ritorna tutti gli ingredienti.
+    {
+        $query = "SELECT * 
+        FROM ingredient i 
+        WHERE 1=1 
+        ORDER BY i.name";
 
-    //     $stmt = $this->conn->prepare($query);
-    //     $stmt->execute();
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
 
-    //     return $stmt;
-    // }
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 
     public function getIngredient($id) //Ritorna l'ingrediente in base al suo id.
     {
@@ -35,7 +38,7 @@ class Ingredient
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
 
-        return $stmt;
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
     // public function getIngredientAllergens($id) //Ritorna gli allergeni di un ingrediente.

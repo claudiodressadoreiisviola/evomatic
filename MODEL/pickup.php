@@ -18,7 +18,6 @@ class PickUp
         $this->conn = $this->db->getConnection();
     }
 
-
     public function getArchivePickup()
     {
         // Da rivedere la query

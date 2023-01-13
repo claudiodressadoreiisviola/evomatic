@@ -97,7 +97,6 @@ class User
 
     public function changePassword($email, $newPassword)
     {
-        if ($this->login($email, $newPassword) > 0) {
             $sql = "UPDATE user 
             SET password = :newPassword
             WHERE email = :email";
@@ -109,6 +108,5 @@ class User
             $stmt->execute();
 
             return $stmt->rowCount();
-        }
     }
 }

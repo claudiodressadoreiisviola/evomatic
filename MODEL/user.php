@@ -104,7 +104,7 @@ class User
     {
             $sql = "update user
             set password = :newPassword
-            where email = :email AND password = :oldPassword;";
+            where email = :email AND password = :oldPassword; AND user.active = 1";
 
             $stmt = $this->conn->prepare($sql);
             $stmt->bindValue(':newPassword', $newPassword, PDO::PARAM_STR);

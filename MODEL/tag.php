@@ -20,7 +20,7 @@ class Tag
 
     public function getArchiveTag() 
     {
-        $sql = "SELECT *
+        $sql = "SELECT id, `name`
         FROM tag
         WHERE 1=1";
 

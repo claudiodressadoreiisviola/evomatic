@@ -4,7 +4,7 @@ header("Content-type: application/json; charset=UTF-8");
 
 $data = json_decode(file_get_contents("php://input"));
 
-if(empty($data->cart) || empty($data->product) || empty($data->quantity)){
+if(empty($data->user) || empty($data->product) || empty($data->quantity)){
     http_response_code(400);
     echo json_encode(["message" => "Fill every field"]);
 }

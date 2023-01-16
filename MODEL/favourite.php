@@ -40,18 +40,8 @@ class Favourite
 
         $favourite = $this->getArchiveFavourite($user_id);
 
-        $archiveFavourites = array();
-        for ($i = 0; $i < (count($favourite)); $i++) {
-            $archiveFavourite = array(
-                "product" => $favourite[$i]["pname"],
-                "product_id" => $favourite[$i]["pid"],
-                "user" => $favourite[$i]["uid"]
-            );
-            array_push($archiveFavourites, $archiveFavourite);
-        }
-
-        for ($i = 0; $i < count($archiveFavourites); $i++) {
-            if ($archiveFavourites[$i]["product_id"] == $product_id) {
+        for ($i = 0; $i < count($favourite); $i++) {
+            if ($favourite[$i]["id"] == $product_id) {
                 return -1;
             }
         }

@@ -34,7 +34,7 @@ class Favourite
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-        public function setFavourite($product, $user_id)
+    public function setFavourite($product_id, $user_id)
     {
         $date = date("Y-m-d h:i:s");
 
@@ -43,14 +43,15 @@ class Favourite
         $archiveFavourites = array();
         for ($i = 0; $i < (count($favourite)); $i++) {
             $archiveFavourite = array(
-                "product" => $favourite[$i]["id"],
+                "product" => $favourite[$i]["pname"],
+                "product_id" => $favourite[$i]["pid"],
                 "user" => $favourite[$i]["uid"]
             );
             array_push($archiveFavourites, $archiveFavourite);
         }
 
         for ($i = 0; $i < count($archiveFavourites); $i++) {
-            if ($archiveFavourites[$i]["product"] == $product) {
+            if ($archiveFavourites[$i]["product_id"] == $product_id) {
                 return -1;
             }
         }
@@ -60,7 +61,7 @@ class Favourite
 
         $stmt = $this->conn->prepare($sql);
         $stmt->bindValue(':user', $user_id, PDO::PARAM_INT);
-        $stmt->bindValue(':product', $product, PDO::PARAM_INT);
+        $stmt->bindValue(':product', $product_id, PDO::PARAM_INT);
         $stmt->bindValue(':created', $date, PDO::PARAM_STR);
 
         $stmt->execute();

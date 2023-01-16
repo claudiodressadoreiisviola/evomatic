@@ -19,5 +19,5 @@ if ($favourite->setFavourite($data->product, $data->user) == 1) {
     echo json_encode(["message" => "Product added to favourite successfully"]);
 } else {
     http_response_code(400);
-    echo json_encode(["message" => "Product doesn't exist or is already favourite"]);
+    echo json_encode(["message" => "Product doesn't exist"]);
 }

@@ -21,6 +21,7 @@ for ($i = 0; $i < (count($result)); $i++) {
     }
     $nutritionalValue = $product->getNutritionalValue($i);
     $productArchiveProduct = array(
+        "id" => $result[$i]["id"],
         "name" => $result[$i]["name"],
         "price" => $result[$i]["price"],
         "description" => $result[$i]["description"],

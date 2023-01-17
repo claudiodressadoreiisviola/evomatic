@@ -18,6 +18,7 @@ $ordersProduct = array();
 for ($i = 0; $i < (count($result)); $i++) {
     $orderProduct = array(
         "id" =>  $result[$i]["id"],
+        "tag" => $result[$i]["tag"],
         "name" => $result[$i]["name"],
         "description" => $result[$i]["description"],
         "quantity" => $result[$i]["quantity"],

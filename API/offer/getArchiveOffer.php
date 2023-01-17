@@ -11,6 +11,7 @@ $productsCart = array();
 for ($i = 0; $i < (count($result)); $i++) {
     $productCart = array(
         "id" =>  $result[$i]["id"],
+        "name" =>  $result[$i]["name"],
         "price" => $result[$i]["price"],
         "expiry" => $result[$i]["expiry"],
         "description" => $result[$i]["description"]

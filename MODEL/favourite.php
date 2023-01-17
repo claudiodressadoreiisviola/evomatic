@@ -20,7 +20,7 @@ class Favourite
 
     public function getArchiveFavourite($id)
     {
-        $sql = "SELECT product.name as pname, product.id as id, user.id as `uid`
+        $sql = "SELECT product.price, product.name as pname, product.id as id, user.id as `uid`
                 FROM favourite
                 INNER JOIN product ON product.id = favourite.product
                 INNER JOIN user ON user.id = favourite.`user`
@@ -39,33 +39,18 @@ class Favourite
         $date = date("Y-m-d h:i:s");
 
         $favourite = $this->getArchiveFavourite($user_id);
-
-        $archiveFavourites = array();
-        for ($i = 0; $i < (count($favourite)); $i++) {
-            $archiveFavourite = array(
-                "product" => $favourite[$i]["pname"],
-                "product_id" => $favourite[$i]["pid"],
-                "user" => $favourite[$i]["uid"]
-            );
-            array_push($archiveFavourites, $archiveFavourite);
-        }
-
-        for ($i = 0; $i < count($archiveFavourites); $i++) {
-            if ($archiveFavourites[$i]["product_id"] == $product_id) {
+        for ($i = 0; $i < count($favourite); $i++) {
+            if ($favourite[$i]["id"] == $product_id) {
                 return -1;
             }
         }
-
         $sql = "INSERT INTO favourite (user, product, created)
                 VALUES (:user, :product, :created)";
-
         $stmt = $this->conn->prepare($sql);
         $stmt->bindValue(':user', $user_id, PDO::PARAM_INT);
         $stmt->bindValue(':product', $product_id, PDO::PARAM_INT);
         $stmt->bindValue(':created', $date, PDO::PARAM_STR);
-
         $stmt->execute();
-
         return $stmt->rowCount();
     }
 

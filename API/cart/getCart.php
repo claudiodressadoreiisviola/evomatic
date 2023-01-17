@@ -13,8 +13,18 @@ $productsCart=array();
 for($i=0; $i<(count($result));$i++)
 {
     $resultProd = $queryProd->getProduct($result[$i]["id"]);
-    $productsCart[$i] = $resultProd;
+
+    $productCart = array(
+        "id" =>  $result[$i]["id"],
+        "name" =>  $resultProd["name"],
+        "price" => $resultProd["price"],
+        "inStock" => $resultProd["inStock"],
+        "description" => $resultProd["description"],
+        "quantity_cart" => $result[$i]["quantity_cart"]
+    );
+    array_push($productsCart, $productCart);
 }
+
 
 http_response_code(200);
 echo json_encode($productsCart);

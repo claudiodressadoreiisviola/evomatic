@@ -3,13 +3,10 @@
 require __DIR__ . '/../../MODEL/product.php';
 require __DIR__ . '/../../MODEL/favourite.php';
 header("Content-type: application/json; charset=UTF-8");
-
 $parts = explode("/", $_SERVER["REQUEST_URI"]);
-
 $product = new Product();
 $favourite = new Favourite();
 $fav;
-
 $result = $product->getArchiveProduct();
 $resultFav = $favourite->getArchiveFavourite($parts[5]);
 $productArchiveProducts = array();
@@ -21,6 +18,7 @@ for ($i = 0; $i < (count($result)); $i++) {
     }
     $nutritionalValue = $product->getNutritionalValue($i);
     $productArchiveProduct = array(
+        "id" => $result[$i]["id"],
         "name" => $result[$i]["name"],
         "price" => $result[$i]["price"],
         "description" => $result[$i]["description"],
@@ -30,7 +28,6 @@ for ($i = 0; $i < (count($result)); $i++) {
     );
     array_push($productArchiveProducts, $productArchiveProduct);
 }
-
 if (empty($productArchiveProducts)) {
     http_response_code(404);
 } else {

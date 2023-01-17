@@ -20,7 +20,7 @@ class Offer
 
     public function getOffer($id) //ritorna nome del prodotto, prezzo, data di expiry, descrizione offerta 
     {
-        $sql = "SELECT p.name,o.price,o.expiry,o.description 
+        $sql = "SELECT p.id, p.name,o.price,o.expiry,o.description 
             FROM offer o
             INNER JOIN product_offer po ON po.offer = o.id
             INNER JOIN product p ON p.id = po.product
@@ -36,7 +36,7 @@ class Offer
 
     public function getArchiveOffer() //ritorna nome del prodotto, prezzo, data di expiry, descrizione offerta
     {
-        $sql = "SELECT p.name,o.price,o.expiry,o.description 
+        $sql = "SELECT p.id, p.name, o.price, o.expiry, o.description 
             FROM offer o
             INNER JOIN product_offer po ON po.offer = o.id
             INNER JOIN product p ON p.id = po.product

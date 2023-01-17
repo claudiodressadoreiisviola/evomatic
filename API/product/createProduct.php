@@ -1,6 +1,6 @@
 <?php
 // ERRATO -> API solo paninara
-
+/*
 require __DIR__ . '/../../MODEL/product.php';
 header("Content-type: application/json; charset=UTF-8");
 
@@ -17,3 +17,4 @@ $product = new Product();
 $result = $product->createProduct($data->name, $data->price, $data->description, $data->quantity, $data->active, $data->ingredients_ids, $data->tags_ids, $data->nutritional_value);
 
 echo json_encode($result);
+*/

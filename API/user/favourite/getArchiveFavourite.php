@@ -18,11 +18,12 @@ $product = new Product;
 
 $archiveFavourites = array();
 for ($i = 0; $i < (count($result)); $i++) {
-    $resultProd = $product->getProduct($result[$i]["id"]);
+    $resultProd = $product->getProduct($result[$i]["pid"]);
     $archiveFavourite = array(
         "id" => $result[$i]["id"],
         "name" => $resultProd["name"],
-        "price" => $resultProd["price"]
+        "price" => $resultProd["price"],
+        "description" => $resultProd["description"]
     );
     array_push($archiveFavourites, $archiveFavourite);
 }

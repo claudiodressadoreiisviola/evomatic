@@ -48,7 +48,7 @@ class Product
     
     public function getProduct($id) //Ritorna il prodotto in base al suo id.
     {
-        $query = "SELECT `name` , price, `description` 
+        $query = "SELECT id, `name` , price, `description`, quantity as inStock
         FROM product p 
         WHERE p.id = :id";
 

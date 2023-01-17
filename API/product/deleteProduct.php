@@ -1,6 +1,6 @@
 <?php
 // API solo paninara
-
+/*
 require __DIR__ . '/../../MODEL/product.php';
 header("Content-type: application/json; charset=UTF-8");
 
@@ -22,3 +22,4 @@ if ($result == 1) {
     http_response_code(400);
     echo json_encode(["message" => "Product not found"]);
 }
+*/

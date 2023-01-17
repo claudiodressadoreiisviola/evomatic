@@ -18,7 +18,7 @@ class Cart
         $this->conn = $this->db->getConnection();
     }
 
-
+    /*
     // Da rivedere per l'aggiunta di prodotti gia' presenti nel carrello (se gia' presente devi updatare la quantita')
     public function addCart($id_user, $id_product, $quantity)
     {
@@ -32,7 +32,7 @@ class Cart
         $stmt->bindValue(':quantity', $quantity, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->rowCount();
-    }
+    }*/
 
     public function addCartProduct($id_user, $id_product, $quantity)
     {
@@ -69,7 +69,7 @@ class Cart
 
     public function getCart($id) //ritorna l'id dei prodotti
     {
-        $sql = "SELECT product.id as id
+        $sql = "SELECT product.id as id, cart.quantity as quantity_cart
         FROM product 
         INNER JOIN cart
         ON product.id = cart.product
@@ -116,28 +116,14 @@ class Cart
     }
 
     // Rimuovi dalla tabella cart_product
-    public function removeAllProducts($id_user)
+    public function removeCart($id_user)
     {
         $sql = "DELETE FROM cart
         WHERE `user` = :id_user";
+
         $stmt = $this->conn->prepare($sql);
         $stmt->bindValue(':id_user', $id_user, PDO::PARAM_INT);
 
         return $stmt->execute();
-    }
-
-    // Rimuovi dalla tabella cart
-    public function removeCart($id_user)
-    {
-        $statement = $this->removeAllProducts($id_user);
-        if (!$statement)
-            return 0;
-        $sql = "DELETE FROM cart WHERE `user` = :id_user";
-
-        $stmt = $this->conn->prepare($sql);
-        $stmt->bindValue(':id_user', $id_user, PDO::PARAM_INT);
-
-        $stmt->execute();
-        return $stmt->rowCount();
     }
 }

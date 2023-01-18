@@ -18,7 +18,7 @@ for($i=0; $i<(count($result));$i++)
         "id" =>  $result[$i]["id"],
         "name" =>  $resultProd["name"],
         "price" => $resultProd["price"],
-        "inStock" => $resultProd["inStock"],
+        "inStock" => $resultProd["quantity"],
         "description" => $resultProd["description"],
         "quantity_cart" => $result[$i]["quantity_cart"]
     );

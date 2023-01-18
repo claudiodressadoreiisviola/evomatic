@@ -88,8 +88,7 @@ class User
     {
         $sql = "SELECT id
         FROM `user`
-        WHERE email = :email 
-        AND password = :password AND active = 1";
+        WHERE email = :email AND `password` = :password AND active = 1";
 
         $stmt = $this->conn->prepare($sql);
         $stmt->bindValue(':email', $email, PDO::PARAM_STR);

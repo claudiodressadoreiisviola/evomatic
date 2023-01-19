@@ -20,8 +20,9 @@ class Product
 
     public function getArchiveProduct() //Ritorna tutti i prodotti.
     {
-        $query = "SELECT id,name, price, description, quantity 
+        $query = "SELECT p.id as pid, p.name as pname, p.price as price, p.description as `description`, p.quantity as quantity, c.name as category
         FROM product p 
+        inner join category c on c.id = p.category
         WHERE 1=1 
         ORDER BY p.name";
 

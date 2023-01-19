@@ -27,9 +27,4 @@ for ($i = 0; $i < (count($result)); $i++) {
     array_push($ordersProduct, $orderProduct);
 }
 
-if (empty($ordersProduct)) {
-    http_response_code(404);
-} else {
-    http_response_code(200);
-    echo json_encode($ordersProduct);
-}
+echo json_encode($ordersProduct);

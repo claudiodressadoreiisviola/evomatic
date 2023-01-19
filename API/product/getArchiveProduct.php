@@ -13,7 +13,7 @@ $productArchiveProducts = array();
 for ($i = 0; $i < (count($result)); $i++) {
     $fav = false;
     for ($j = 0; $j < (count($resultFav)); $j++){
-        if ($resultFav[$j]["id"] == $result[$i]["pid"])
+        if ($resultFav[$j]["pid"] == $result[$i]["pid"])
             $fav = true;
     }
     $nutritionalValue = $product->getNutritionalValue($i);

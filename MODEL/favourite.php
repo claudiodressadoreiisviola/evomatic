@@ -20,7 +20,7 @@ class Favourite
 
     public function getArchiveFavourite($id)
     {
-        $sql = "SELECT product.price, product.name as pname, product.id as id, user.id as `uid`
+        $sql = "SELECT product.price, product.name as pname, product.id as pid
                 FROM favourite
                 INNER JOIN product ON product.id = favourite.product
                 INNER JOIN user ON user.id = favourite.`user`

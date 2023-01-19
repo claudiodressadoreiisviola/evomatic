@@ -105,6 +105,20 @@ class Product
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    
+    public function getProductCategory($id) //Ritorna la categoria di un prodotto.
+    {
+        $query = "SELECT c.id, c.name 
+        FROM product p 
+        inner join category c on c.id = p.category
+        where p.id = :id";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindValue(":id", $id, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 
     /* API solo paninara
     public function deleteProductFromAllIngredients($id) //Cancella il prodotto nella tabella molti a molti con gli ingredienti.

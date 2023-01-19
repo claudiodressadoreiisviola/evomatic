@@ -18,7 +18,7 @@ $ordersProduct = array();
 for ($i = 0; $i < (count($result)); $i++) {
     $orderProduct = array(
         "id" =>  $result[$i]["id"],
-        "tag" => $result[$i]["tag"],
+        "category" => $result[$i]["category"],
         "name" => $result[$i]["name"],
         "description" => $result[$i]["description"],
         "quantity" => $result[$i]["quantity"],
@@ -27,4 +27,9 @@ for ($i = 0; $i < (count($result)); $i++) {
     array_push($ordersProduct, $orderProduct);
 }
 
-echo json_encode($ordersProduct);
+if (empty($ordersProduct)) {
+    http_response_code(404);
+} else {
+    http_response_code(200);
+    echo json_encode($ordersProduct);
+}

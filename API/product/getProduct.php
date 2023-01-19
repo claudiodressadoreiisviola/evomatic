@@ -17,9 +17,11 @@ $fav = false;
 
 $result = $product->getProduct($parts[5]);
 $resultFav = $favourite->getArchiveFavourite($parts[6]);
-for ($j = 0; $j < (count($resultFav)); $j++){
-    if ($resultFav[$j]["id"] == $parts[5])
-        $fav = true;
+if (!empty($resultFav)){
+    for ($j = 0; $j < (count($resultFav)); $j++){
+        if ($resultFav[$j]["pid"] == $parts[5])
+            $fav = true;
+    }
 }
 $nutritionalValue = $product->getNutritionalValue($parts[5]);
 $productArchiveProduct = array(

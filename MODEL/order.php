@@ -136,11 +136,10 @@ class Order
 
     function getOrderProduct($order_id) // Ottiene l'ordine con l'id passato alla funzione
     {
-        $query = "SELECT p.id, p.name, t.name as tag, p.description, po.quantity, p.price  FROM `order` o
+        $query = "SELECT p.id, p.name, c.name as category, p.description, po.quantity, p.price  FROM `order` o
         INNER JOIN product_order po on o.id = po.order
         INNER JOIN product p on po.product = p.id
-        INNER JOIN product_tag pt on pt.product = p.id
-        INNER JOIN tag t on t.id = pt.tag
+        INNER JOIN category c on c.id = p.category
         WHERE o.id = :order_id";
 
         $stmt = $this->conn->prepare($query);

@@ -13,17 +13,24 @@ $productArchiveProducts = array();
 for ($i = 0; $i < (count($result)); $i++) {
     $fav = false;
     for ($j = 0; $j < (count($resultFav)); $j++){
-        if ($resultFav[$j]["id"] == $result[$i]["id"])
+        if ($resultFav[$j]["pid"] == $result[$i]["pid"])
             $fav = true;
     }
     $nutritionalValue = $product->getNutritionalValue($i);
+    $resultTags = $product->getProductTags($result[$i]["pid"]);
+    $resultIngredients = $product->getProductIngredients($result[$i]["pid"]);
+    $resultAllergen = $product->getProductAllergens($result[$i]["pid"]);
     $productArchiveProduct = array(
-        "id" => $result[$i]["id"],
-        "name" => $result[$i]["name"],
+        "id" => $result[$i]["pid"],
+        "name" => $result[$i]["pname"],
+        "category" => $result[$i]["category"],
         "price" => $result[$i]["price"],
         "description" => $result[$i]["description"],
         "quantity" => $result[$i]["quantity"],
         "nutritional value" => $nutritionalValue,
+        "tags" => $resultTags,
+        "ingredients" => $resultIngredients,
+        "allergens" => $resultAllergen,
         "favourite" => $fav
     );
     array_push($productArchiveProducts, $productArchiveProduct);

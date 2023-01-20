@@ -20,8 +20,9 @@ class Product
 
     public function getArchiveProduct() //Ritorna tutti i prodotti.
     {
-        $query = "SELECT id,name, price, description, quantity 
+        $query = "SELECT p.id as pid, p.name as pname, p.price as price, p.description as `description`, p.quantity as quantity, c.name as category
         FROM product p 
+        inner join category c on c.id = p.category
         WHERE 1=1 
         ORDER BY p.name";
 
@@ -48,7 +49,7 @@ class Product
     
         public function getProduct($id) //Ritorna il prodotto in base al suo id.
     {
-        $query = "SELECT `name` , price, `description`, quantity /*, category*/
+        $query = "SELECT `name` , price, `description`, quantity
         FROM product p 
         WHERE p.id = :id";
 
@@ -98,6 +99,20 @@ class Product
         INNER JOIN tag t ON pt.tag = t.id 
         WHERE p.id = :id 
         ORDER BY t.name";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindValue(":id", $id, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+    public function getProductCategory($id) //Ritorna la categoria di un prodotto.
+    {
+        $query = "SELECT c.id, c.name 
+        FROM product p 
+        inner join category c on c.id = p.category
+        where p.id = :id";
 
         $stmt = $this->conn->prepare($query);
         $stmt->bindValue(":id", $id, PDO::PARAM_INT);

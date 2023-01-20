@@ -20,7 +20,7 @@ class Favourite
 
     public function getArchiveFavourite($id)
     {
-        $sql = "SELECT product.price, product.name as pname, product.id as id, user.id as `uid`
+        $sql = "SELECT product.price, product.name as pname, product.id as pid
                 FROM favourite
                 INNER JOIN product ON product.id = favourite.product
                 INNER JOIN user ON user.id = favourite.`user`
@@ -40,7 +40,7 @@ class Favourite
 
         $favourite = $this->getArchiveFavourite($user_id);
         for ($i = 0; $i < count($favourite); $i++) {
-            if ($favourite[$i]["id"] == $product_id) {
+            if ($favourite[$i]["pid"] == $product_id) {
                 return -1;
             }
         }

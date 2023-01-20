@@ -25,11 +25,4 @@ $nutritionalValue = array(
   "salt" => $result["salt"],
 );
 
-
-
-if (empty($nutritinalValue)) {
-    http_response_code(404);
-} else {
-    http_response_code(200);
-    echo json_encode($nutritinalValue);
-}
+echo json_encode($nutritinalValue);

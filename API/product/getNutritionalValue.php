@@ -15,7 +15,7 @@ $product = new Product();
 $result = $product->getNutritionalValue($parts[5]);
 
 $nutritionalValue = array(
-  "kcal" =>  $result["kcal"],
+  "kcal" => $result["kcal"],
   "fats" => $result["fats"],
   "saturated_fats" => $result["saturated_fats"],
   "carbohydrates" => $result["carbohydrates"],

@@ -37,7 +37,7 @@ class Product
         $query = "SELECT kcal, fats, saturated_fats, carbohydrates, sugars, proteins, fiber, salt 
         FROM nutritional_value 
         INNER JOIN product on product.nutritional_value = nutritional_value.id 
-        WHERE nutritional_value.id = :id";
+        WHERE product.id = :id";
 
         $stmt = $this->conn->prepare($query);
         $stmt->bindValue(':id', $id, PDO::PARAM_INT);

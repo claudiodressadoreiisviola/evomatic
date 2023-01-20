@@ -25,4 +25,4 @@ $nutritionalValue = array(
   "salt" => $result["salt"],
 );
 
-echo json_encode($nutritinalValue);
+echo json_encode($nutritionalValue);

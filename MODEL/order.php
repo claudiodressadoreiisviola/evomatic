@@ -148,4 +148,23 @@ class Order
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    
+    function setProductOrder($user_id)
+    {
+        $query = "INSERT INTO product_order
+        SELECT c.product,  last_o.id, c.quantity
+                FROM (select o.`user`, o.id
+                FROM `order` o 
+                  where o.`user` = :user_id
+                order by o.created desc
+                limit 1) last_o
+         inner join cart c on last_o.`user`= c.`user`;";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+        //$stmt->bindValue(':order_id', $order_id, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->rowCount();
+    }
 }

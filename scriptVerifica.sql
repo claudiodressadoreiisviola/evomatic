@@ -57,7 +57,7 @@ CREATE  TABLE `sandwiches`.product (
 
 CREATE  TABLE `sandwiches`.nutritional_value ( 
 	id                   INT UNSIGNED NOT NULL   AUTO_INCREMENT  PRIMARY KEY,
-	kcal                 INT NOT NULL,
+	kcal                 DECIMAL(5,2) NOT NULL,
 	fats                 DECIMAL(4,2) NOT NULL,
 	saturated_fats       DECIMAL(4,2),
 	carbohydrates        DECIMAL(4,2) NOT NULL,

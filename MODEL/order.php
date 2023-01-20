@@ -120,7 +120,8 @@ class Order
 
     function getOrder($order_id) // Ottiene l'ordine con l'id passato alla funzione
     {
-        $query = "SELECT o.user, o.created, p.name, b.time, s.description FROM `order` o
+        $query = "SELECT o.user, o.created, p.name, b.time, s.description
+        FROM `order` o
         INNER JOIN `status` s on o.status = s.id
         INNER JOIN `break` b on o.break = b.id
         INNER JOIN pickup p on o.pickup = p.id

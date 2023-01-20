@@ -15,14 +15,14 @@ $product = new Product();
 $result = $product->getNutritionalValue($parts[5]);
 
 $nutritionalValue = array(
-  "kcal" =>  $result[$i]["kcal"],
-  "fats" => $result[$i]["fats"],
-  "saturated_fats" => $result[$i]["saturated_fats"],
-  "carbohydrates" => $result[$i]["carbohydrates"],
-  "sugars" => $result[$i]["sugars"],
-  "proteins" => $result[$i]["proteins"],
-  "fiber" => $result[$i]["fiber"],
-  "salt" => $result[$i]["salt"],
+  "kcal" =>  $result["kcal"],
+  "fats" => $result["fats"],
+  "saturated_fats" => $result["saturated_fats"],
+  "carbohydrates" => $result["carbohydrates"],
+  "sugars" => $result["sugars"],
+  "proteins" => $result["proteins"],
+  "fiber" => $result["fiber"],
+  "salt" => $result["salt"],
 );
 
 

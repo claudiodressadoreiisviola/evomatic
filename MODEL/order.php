@@ -125,7 +125,7 @@ class Order
         INNER JOIN `status` s on o.status = s.id
         INNER JOIN `break` b on o.break = b.id
         INNER JOIN pickup p on o.pickup = p.id
-        INNER JOIN user u on u.id = o.id
+        INNER JOIN user u on u.id = o.user
         WHERE o.id = :order_id AND u.active = 1";
 
         $stmt = $this->conn->prepare($query);

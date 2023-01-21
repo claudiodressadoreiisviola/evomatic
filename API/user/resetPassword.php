@@ -4,16 +4,16 @@ header("Content-type: application/json; charset=UTF-8");
 
 $parts = explode("/", $_SERVER["REQUEST_URI"]);
 
-if (empty($parts[5])) {
+if (empty($parts[5])||empty($parts[6])) {
     http_response_code(400);
-    echo json_encode(["message" => "Insert a valid ID"]);
+    echo json_encode(["message" => "Insert a valid ID or date"]);
     die();
 }
 $user = new User();
 $email= $user->getUser($parts[5])["email"];
 $name= $user->getUser($parts[5])["name"];
 
-if ($result = $user->resetPassword($parts[5])) {
+if ($result = $user->resetPassword($parts[5], $parts[6])) {
     echo json_encode($result);
     $mail = new PHPMailer(true);  //phpmailer
 $mail->isSMTP();

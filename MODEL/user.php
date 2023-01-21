@@ -49,12 +49,20 @@ class User
         return $stmt->execute();
     }
 
-    public function resetPassword($id)
+    public function resetPassword($id,$date)
     {
-        $date = date("d:m:Y h:i:s");
-
         // Generazione della password randomica
         $password = bin2hex(openssl_random_pseudo_bytes(4));
+
+        $sql = "UPDATE user
+        SET password = :password
+        WHERE id = :id AND active = 1";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+        $stmt->bindValue(':password', $password, PDO::PARAM_STR);
+
+        $stmt->execute();
 
         // Aggiunta alla tabella reset l'utente
         $sql = "INSERT INTO reset
@@ -65,7 +73,7 @@ class User
         $stmt->bindValue(':user', $id, PDO::PARAM_INT);
         $stmt->bindValue(':password', $password, PDO::PARAM_STR);
         $stmt->bindValue(':requested', $date, PDO::PARAM_STR);
-        $stmt->bindValue(':expires', date("d:m:Y h:i:s", strtotime($date . '+ 5 Days')), PDO::PARAM_STR);
+        $stmt->bindValue(':expires', date("Y-m-d", strtotime($date . '+ 5 Days')), PDO::PARAM_STR);
         $stmt->bindValue(':completed', FALSE, PDO::PARAM_INT);
 
         $stmt->execute();

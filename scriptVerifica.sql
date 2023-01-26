@@ -88,7 +88,13 @@ CREATE  TABLE `sandwiches`.`user` (
 	surname              VARCHAR(64)  NOT NULL,
 	email                VARCHAR(128)  NOT NULL,
 	password             VARCHAR(128)  NOT NULL,
+	type                 INT UNSIGNED NOT NULL,
 	active               BOOLEAN  NOT NULL DEFAULT (TRUE)    
+ );
+ 
+ CREATE TABLE `sandwiches`.`type` (
+	 id                   INT UNSIGNED NOT NULL   AUTO_INCREMENT  PRIMARY KEY,
+	 name                 VARCHAR(64)  NOT NULL
  );
 
  CREATE  TABLE `sandwiches`.user_class (
@@ -396,3 +402,5 @@ ALTER TABLE `sandwiches`.product_offer ADD CONSTRAINT fk_product_offer_product F
 ALTER TABLE `sandwiches`.product_offer  ADD CONSTRAINT fk_product_offer_offer FOREIGN KEY ( offer ) REFERENCES `sandwiches`.offer ( id );
 
 ALTER TABLE `sandwiches`.product ADD CONSTRAINT fk_product_category FOREIGN KEY ( category ) REFERENCES `sandwiches`.category ( id );
+
+ALTER TABLE `sandwiches`.`user` ADD CONSTRAINT fk_user_type FOREIGN KEY ( type ) REFERENCES `sandwiches`.type ( id );

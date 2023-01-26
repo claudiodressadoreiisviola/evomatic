@@ -209,7 +209,6 @@ class Product
         $stmt->execute();
     }*/
 
-    /* API solo paninara
     public function createProduct($name, $price, $description, $quantity, $active, $ingredients_ids, $tags_ids, $nutritional_values) //Inserisce un nuovo prodotto.
     {
         $query = 'INSERT INTO ' . $this->table_name . '(name, price, descpription, quantity, active) VALUES(\'' . $name . '\', ' . $price . ', \'' . $description . '\', ' . $quantity . ', ' . $active . ')';
@@ -249,7 +248,7 @@ class Product
                 $this->setNutritionalValue($res, $tags_ids[$i]);
             }
         }
-    }*/
+    }
 
     /* API solo paninara
     public function modifyProductName($id, $name) //Modifica il nome di un prodotto.

@@ -120,8 +120,9 @@ class Product
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-    
-    public function changeProductActive($product_id,$active){
+
+    public function changeProductActive($product_id, $active)
+    {
         $sql = "UPDATE product
         SET active = :active
         where id = :product_id";
@@ -132,95 +133,7 @@ class Product
         $stmt->execute();
 
         return $stmt->rowCount();
-    } 
-
-    /* API solo paninara
-    public function deleteProductFromAllIngredients($id) //Cancella il prodotto nella tabella molti a molti con gli ingredienti.
-    {
-        $query = 'DELETE FROM product_ingredient WHERE product = ' . $id;
-
-        $stmt = $this->conn->prepare($query);
-        $stmt->execute();
-    }*/
-
-    /* API solo paninara
-    public function deleteProductFromAllTags($id) //Cancella il prodotto nella tabella molti a molti con i tag.
-    {
-        $query = 'DELETE FROM product_tag WHERE product = ' . $id;
-
-        $stmt = $this->conn->prepare($query);
-        $stmt->execute();
-    }*/
-
-    /* API solo paninara
-    public function deleteProductFromAllOrders($id) //Cancella il prodotto nella tabella molti a molti con gli ordini.
-    {
-        $query = 'DELETE FROM product_order WHERE product = ' . $id;
-
-        $stmt = $this->conn->prepare($query);
-        $stmt->execute();
-    }*/
-
-    /* API solo paninara
-    public function deleteProductFromAllCarts($id) //Cancella il prodotto nella tabella molti a molti con i carrelli.
-    {
-        $query = 'DELETE FROM product_cart WHERE product = ' . $id;
-
-        $stmt = $this->conn->prepare($query);
-        $stmt->execute();
-    }*/
-
-    /* API solo paninara
-    public function deleteProduct($id) //Cancella il prodotto dalla tabella product.
-    {
-        $this->deleteProductFromAllIngredients($id); //Richiama il metodo per rimuovere il prodotto dalla tabella molti a molti (per permettermi poi di eliminarlo dalla tabella product).
-        $this->deleteProductFromAllTags($id); //Richiama il metodo per rimuovere il prodotto dalla tabella molti a molti (per permettermi poi di eliminarlo dalla tabella product).
-        $this->deleteProductFromAllOrders($id); //Richiama il metodo per rimuovere il prodotto dalla tabella molti a molti (per permettermi poi di eliminarlo dalla tabella product).
-        $this->deleteProductFromAllCarts($id); //Richiama il metodo per rimuovere il prodotto dalla tabella molti a molti (per permettermi poi di eliminarlo dalla tabella product).
-
-        $query = 'DELETE FROM ' . $this->table_name . ' WHERE id = ' . $id;
-
-        $stmt = $this->conn->prepare($query);
-        $stmt->execute();
-
-        return $stmt->rowCount();
-    }*/
-
-    /* API solo paninara
-    public function setNutritionalValue($kcal, $fats, $saturated_fats, $carbohydrates, $sugar, $proteins, $fiber, $salt)
-    {
-        $query = 'INSERT INTO nutritional_value (kcal, fats, saturated_fats, carbohydrates, sugar, proteins, fiber, salt) VALUES (:kcal, :fats, :saturated_fats, :carbohydrates, :sugar, :proteins, :fiber, :salt)';
-
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindValue(':kcal', $kcal, PDO::PARAM_INT);
-        $stmt->bindValue(':fats', $fats, PDO::PARAM_STR);
-        $stmt->bindValue(':saturated_fats', $saturated_fats, PDO::PARAM_STR);
-        $stmt->bindValue(':carbohydrates', $carbohydrates, PDO::PARAM_STR);
-        $stmt->bindValue(':sugar', $sugar, PDO::PARAM_STR);
-        $stmt->bindValue(':proteins', $proteins, PDO::PARAM_STR);
-        $stmt->bindValue(':fiber', $fiber, PDO::PARAM_STR);
-        $stmt->bindValue(':salt', $salt, PDO::PARAM_STR);
-
-        $stmt->execute();
-    }*/
-
-    /* API solo paninara
-    public function setProductIngredient($product_id, $ingredient_id) //Inserisce valori nella tabella product_ingredient.
-    {
-        $query = 'INSERT INTO product_ingredient (product, ingredient) VALUES(' . $product_id . ', ' . $ingredient_id . ')';
-
-        $stmt = $this->conn->prepare($query);
-        $stmt->execute();
-    }*/
-
-    /* API solo paninara
-    public function setProductTag($product_id, $tag_id) //Inserisce valori nella tabella product_tag.
-    {
-        $query = 'INSERT INTO product_tag (product, tag) VALUES(' . $product_id . ', ' . $tag_id . ')';
-
-        $stmt = $this->conn->prepare($query);
-        $stmt->execute();
-    }*/
+    }
 
     // Note: 
     //      Nutritional values deve essere un array di double in questo ordine: 
@@ -301,52 +214,161 @@ class Product
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    /* API solo paninara
     public function modifyProductName($id, $name) //Modifica il nome di un prodotto.
     {
-        $query = 'UPDATE ' . $this->table_name . ' p SET p.name = \'' . $name . '\' WHERE p.id = ' . $id;
+        $query = "UPDATE product
+                SET name = :name
+                WHERE id = :id";
 
         $stmt = $this->conn->prepare($query);
+        $stmt->bindValue(":id", $id, PDO::PARAM_INT);
+        $stmt->bindValue(":name", $name, PDO::PARAM_STR);
         $stmt->execute();
 
-        return $stmt->rowCount();
-    }*/
+        $query = "SELECT *
+                FROM product
+                WHERE id = :id";
 
-    /* API solo paninara
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindValue(":id", $id, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
     public function modifyProductPrice($id, $price) //Modifica il prezzo di un prodotto.
     {
-        $query = 'UPDATE ' . $this->table_name . ' p SET p.price = ' . $price . ' WHERE p.id = ' . $id;
+        $query = "UPDATE product
+                SET price = :price
+                WHERE id = :id";
 
         $stmt = $this->conn->prepare($query);
+        $stmt->bindValue(":id", $id, PDO::PARAM_INT);
+        $stmt->bindValue(":price", $price, PDO::PARAM_STR);
         $stmt->execute();
 
-        return $stmt->rowCount();
-    }*/
+        $query = "SELECT *
+                FROM product
+                WHERE id = :id";
 
-    /* API solo paninara
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindValue(":id", $id, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
     public function modifyProductDescription($id, $description) //Modifica la descrizione di un prodotto.
     {
-        $query = 'UPDATE ' . $this->table_name . ' p SET p.description = \'' . $description . '\' WHERE p.id = ' . $id;
+        $query = "UPDATE product
+                SET description = :description
+                WHERE id = :id";
 
         $stmt = $this->conn->prepare($query);
+        $stmt->bindValue(":id", $id, PDO::PARAM_INT);
+        $stmt->bindValue(":description", $description, PDO::PARAM_STR);
         $stmt->execute();
-    }*/
 
-    /* API solo paninara
+        $query = "SELECT *
+                FROM product
+                WHERE id = :id";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindValue(":id", $id, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
     public function modifyProductQuantity($id, $quantity) //Modifica la quantità in magazzino di un prodotto.
     {
-        $query = 'UPDATE ' . $this->table_name . ' p SET p.quantity = ' . $quantity . ' WHERE p.id = ' . $id;
+        $query = "UPDATE product
+                SET quantity = :quantity
+                WHERE id = :id";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindValue(":id", $id, PDO::PARAM_INT);
+        $stmt->bindValue(":quantity", $quantity, PDO::PARAM_INT);
+        $stmt->execute();
+
+        $query = "SELECT *
+                FROM product
+                WHERE id = :id";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindValue(":id", $id, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function modifyProductCategory($id, $category) //Modifica lo stato di un prodotto.
+    {
+        $query = "UPDATE product
+                SET category = :category
+                WHERE id = :id";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindValue(":id", $id, PDO::PARAM_INT);
+        $stmt->bindValue(":category", $category, PDO::PARAM_INT);
+        $stmt->execute();
+
+        $query = "SELECT *
+                FROM product
+                WHERE id = :id";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindValue(":id", $id, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    /* API solo paninara
+    public function deleteProductFromAllIngredients($id) //Cancella il prodotto nella tabella molti a molti con gli ingredienti.
+    {
+        $query = 'DELETE FROM product_ingredient WHERE product = ' . $id;
 
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
-
-        return $stmt->rowCount();
     }*/
 
     /* API solo paninara
-    public function modifyProductActive($id, $active) //Modifica lo stato di un prodotto.
+    public function deleteProductFromAllTags($id) //Cancella il prodotto nella tabella molti a molti con i tag.
     {
-        $query = 'UPDATE ' . $this->table_name . ' p SET p.quantity = ' . $active . ' WHERE p.id = ' . $id;
+        $query = 'DELETE FROM product_tag WHERE product = ' . $id;
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+    }*/
+
+    /* API solo paninara
+    public function deleteProductFromAllOrders($id) //Cancella il prodotto nella tabella molti a molti con gli ordini.
+    {
+        $query = 'DELETE FROM product_order WHERE product = ' . $id;
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+    }*/
+
+    /* API solo paninara
+    public function deleteProductFromAllCarts($id) //Cancella il prodotto nella tabella molti a molti con i carrelli.
+    {
+        $query = 'DELETE FROM product_cart WHERE product = ' . $id;
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+    }*/
+
+    /* API solo paninara
+    public function deleteProduct($id) //Cancella il prodotto dalla tabella product.
+    {
+        $this->deleteProductFromAllIngredients($id); //Richiama il metodo per rimuovere il prodotto dalla tabella molti a molti (per permettermi poi di eliminarlo dalla tabella product).
+        $this->deleteProductFromAllTags($id); //Richiama il metodo per rimuovere il prodotto dalla tabella molti a molti (per permettermi poi di eliminarlo dalla tabella product).
+        $this->deleteProductFromAllOrders($id); //Richiama il metodo per rimuovere il prodotto dalla tabella molti a molti (per permettermi poi di eliminarlo dalla tabella product).
+        $this->deleteProductFromAllCarts($id); //Richiama il metodo per rimuovere il prodotto dalla tabella molti a molti (per permettermi poi di eliminarlo dalla tabella product).
+
+        $query = 'DELETE FROM ' . $this->table_name . ' WHERE id = ' . $id;
 
         $stmt = $this->conn->prepare($query);
         $stmt->execute();

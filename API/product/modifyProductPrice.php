@@ -1,6 +1,5 @@
 <?php
-// API solo paninara
-/*
+
 require __DIR__ . '/../../MODEL/product.php';
 header("Content-type: application/json; charset=UTF-8");
 
@@ -13,11 +12,10 @@ if (empty($data->id) || empty($data->price)) {
 }
 $product = new Product();
 
-if ($product->modifyProductPrice($data->id, $data->price) == 1) {
+if (!empty($product->modifyProductPrice($data->id, $data->price))) {
     http_response_code(201);
     echo json_encode(["message" => "Updated successfully"]);
 } else {
     http_response_code(400);
     echo json_encode(["message" => "Update unsuccessfull"]);
 }
-*/

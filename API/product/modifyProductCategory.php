@@ -1,12 +1,11 @@
 <?php
-// API solo paninara
 
-/*require __DIR__ . '/../../MODEL/product.php';
+require __DIR__ . '/../../MODEL/product.php';
 header("Content-type: application/json; charset=UTF-8");
 
 $data = json_decode(file_get_contents("php://input"));
 
-if (empty($data->id) || empty($data->active)) {
+if (empty($data->id) || empty($data->category)) {
     http_response_code(400);
     echo json_encode(["message" => "Fill every field"]);
     die();
@@ -14,11 +13,10 @@ if (empty($data->id) || empty($data->active)) {
 
 $product = new Product();
 
-if ($product->modifyProductActive($data->id, $data->active) == 1) {
+if (!empty($product->modifyProductCategory($data->id, $data->category))) {
     http_response_code(201);
     echo json_encode(["message" => "Updated successfully"]);
 } else {
     http_response_code(400);
     echo json_encode(["message" => "Update unsuccessfull"]);
 }
-*/

@@ -1,10 +1,8 @@
 <?php
-
 require __DIR__ . '/../../MODEL/ingredient.php';
 header("Content-type: application/json; charset=UTF-8");
 
 $data = json_decode(file_get_contents("php://input"));
-
 
 if (empty($data->name) || empty($data->description)) {
     http_response_code(400);
@@ -14,6 +12,6 @@ if (empty($data->name) || empty($data->description)) {
 
 $ingredient = new Ingredient;
 
-$result = $ingredient->createIngredient($data->name, $data->description);
+$result = $ingredient->modifyIngredient($data->id, $data->name, $data->description);
 
 echo json_encode($result);

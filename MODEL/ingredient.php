@@ -31,6 +31,48 @@ class Ingredient
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function createIngredient($name, $description) //Inserisce un nuovo ingrediente.
+    {
+        $query = "INSERT INTO ingredient i (name, description)
+        VALUES (':name', ':description')";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindValue(':name', $name, PDO::PARAM_INT);
+        $stmt->bindValue(':description', $description, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function ModifyIngredient($id, $name, $description)
+    {
+        $query_name = "UPDATE ingredient i
+        SET i.name = :name
+        WHERE i.id = :id";
+
+        $stmt = $this->conn->prepare($query_name);
+        $stmt->bindValue(':name', $name, PDO::PARAM_INT);
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+
+        $query_description = "UPDATE ingredient i
+        SET i.description = :description
+        WHERE i.id = :id";
+
+        $stmt = $this->conn->prepare($query_description);
+        $stmt->bindValue(':description', $description, PDO::PARAM_INT);
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+
+        $query_return = "SELECT ingredient.name, ingredient.description
+        FROM ingredient";
+
+        $stmt = $this->conn->prepare($query_return);
+        $stmt->execute();
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
     /*public function getIngredient($id) //Ritorna l'ingrediente in base al suo id.
     {
         $query = "SELECT `name`, `description` FROM ingredient WHERE ingredient.id = :id";

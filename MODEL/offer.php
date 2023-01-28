@@ -46,8 +46,8 @@ class Offer
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-    
-    public function createOffer($price,$start,$expiry,$description,$products)
+
+    public function createOffer($price, $start, $expiry, $description, $products)
     {
         $sql = "INSERT INTO offer (price,`start`,`expiry`,`description`)
         VALUES(:price,:start,:expiry,:description)";
@@ -74,5 +74,36 @@ class Offer
         }
 
         return $stmt->rowCount();
+    }
+
+    public function ModifyOffer($id_offer, $price, $expiry)
+    {
+        $sql_price = "UPDATE offer o 
+        SET price = :price
+        WHERE o.id =:id_offer";
+
+        $stmt_price = $this->conn->prepare($sql_price);
+        $stmt_price->bindValue(':id_offer', $id_offer, PDO::PARAM_INT);
+        $stmt_price->bindValue(':price', $price, PDO::PARAM_INT);
+        $stmt_price->execute();
+
+        $sql_expery = "UPDATE offer o 
+        SET expiry  = :expiry
+        WHERE o.id = :id_offer";
+
+        $stmt_expery = $this->conn->prepare($sql_expery);
+        $stmt_expery->bindValue(':id_offer', $id_offer, PDO::PARAM_INT);
+        $stmt_expery->bindValue(':expiry', $expiry, PDO::PARAM_INT);
+        $stmt_expery->execute();
+
+        $sql = "SELECT o.price, o.`start` , o.expiry, o.description 
+        FROM offer o
+        WHERE o.id = :id_offer";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindValue(':id_offer', $id_offer, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 }

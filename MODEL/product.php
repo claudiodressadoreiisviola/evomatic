@@ -46,15 +46,15 @@ class Product
 
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
-    
-        public function getProduct($id) //Ritorna il prodotto in base al suo id.
+
+    public function getProduct($id) //Ritorna il prodotto in base al suo id.
     {
         $query = "SELECT `name` , price, `description`, quantity
         FROM product p 
         WHERE p.id = :id";
 
         $stmt = $this->conn->prepare($query);
-        $stmt->bindValue(':id',$id,PDO::PARAM_INT);
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
 
         return $stmt->fetch(PDO::FETCH_ASSOC);
@@ -106,7 +106,7 @@ class Product
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-    
+
     public function getProductCategory($id) //Ritorna la categoria di un prodotto.
     {
         $query = "SELECT c.id, c.name 
@@ -209,45 +209,83 @@ class Product
         $stmt->execute();
     }*/
 
-    public function createProduct($name, $price, $description, $quantity, $active, $ingredients_ids, $tags_ids, $nutritional_values) //Inserisce un nuovo prodotto.
+    // Note: 
+    //      Nutritional values deve essere un array di double in questo ordine: 
+    //       [kcal, fats, saturated_fats, carbohydrates, sugars, proteins, fiber, salt].
+    //
+    //      Gli ingredienti devono già esistere, nel caso si voglia creare un prodotto con nuovi ingredienti
+    //       bisogna prima crearli per poi creare il prodotto.
+    public function createProduct($name, $price, $description, $quantity, $ingredients_ids, $tags_ids, $category, $nutritional_values) //Inserisce un nuovo prodotto.
     {
-        $query = 'INSERT INTO ' . $this->table_name . '(name, price, descpription, quantity, active) VALUES(\'' . $name . '\', ' . $price . ', \'' . $description . '\', ' . $quantity . ', ' . $active . ')';
+        // Creazione di nuovi valori nutrizionali
+        $query = "INSERT INTO nutritional_value (kcal, fats, saturated_fats, carbohydrates, sugars, proteins, fiber, salt) 
+                VALUES (:kcal, :fats, :saturated_fats, :carbohydrates, :sugars, :proteins, :fiber, :salt)";
 
         $stmt = $this->conn->prepare($query);
+        $stmt->bindValue(":kcal", $nutritional_values[0], PDO::PARAM_STR);
+        $stmt->bindValue(":fats", $nutritional_values[1], PDO::PARAM_STR);
+        $stmt->bindValue(":saturated_fats", $nutritional_values[2], PDO::PARAM_STR);
+        $stmt->bindValue(":carbohydrates", $nutritional_values[3], PDO::PARAM_STR);
+        $stmt->bindValue(":sugars", $nutritional_values[4], PDO::PARAM_STR);
+        $stmt->bindValue(":proteins", $nutritional_values[5], PDO::PARAM_STR);
+        $stmt->bindValue(":fiber", $nutritional_values[6], PDO::PARAM_STR);
+        $stmt->bindValue(":salt", $nutritional_values[7], PDO::PARAM_STR);
+
         $stmt->execute();
 
-        if (empty($ingredients_ids)) {
-            $query1 = 'SELECT DISTINCT id FROM ' . $this->table_name . ' WHERE name = \'' . $name . '\''; //Query per ritornarmi l'id dell'ingrediente.
-            $stmt1 = $this->conn->prepare($query1);
-            $stmt1->execute();
-            $res = $stmt1->fetch(PDO::FETCH_ASSOC);
+        // L'ID dei valori nutrizionali appena inseriti
+        $lastId = $this->conn->lastInsertId();
 
-            for ($i = 0; $i < count($ingredients_ids); $i++) {
-                $this->setProductIngredient($res, $ingredients_ids[$i]);
-            }
+        // Creazione del prodotto
+        $query = "INSERT INTO product (name, price, description, quantity, nutritional_value, category) 
+                VALUES(:name, :price, :description, :quantity, :nutritional, :category)";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindValue(":name", $name, PDO::PARAM_STR);
+        $stmt->bindValue(":price", $price, PDO::PARAM_STR);
+        $stmt->bindValue(":description", $description, PDO::PARAM_STR);
+        $stmt->bindValue(":quantity", $quantity, PDO::PARAM_INT);
+        $stmt->bindValue(":nutritional", $lastId, PDO::PARAM_INT);
+        $stmt->bindValue(":category", $category, PDO::PARAM_INT);
+
+        $stmt->execute();
+
+        $productId = $this->conn->lastInsertId();
+
+        // Collegamento tra prodotto e tag
+        $query = "INSERT INTO product_tag (product, tag)
+                VALUES (:product, :tag)";
+
+        for ($i = 0; $i < sizeof($tags_ids); $i++) {
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindValue(":product", $productId, PDO::PARAM_INT);
+            $stmt->bindValue(":tag", $tags_ids[$i], PDO::PARAM_INT);
+
+            $stmt->execute();
         }
 
-        if (empty($tags_ids)) {
-            $query1 = 'SELECT DISTINCT id FROM ' . $this->table_name . ' WHERE name = \'' . $name . '\''; //Query per ritornarmi l'id del tag.
-            $stmt1 = $this->conn->prepare($query1);
-            $stmt1->execute();
-            $res = $stmt1->fetch(PDO::FETCH_ASSOC);
+        // Collegamento tra prodotto e ingredient
+        $query = "INSERT INTO product_ingredient (product, ingredient)
+                VALUES (:product, :ingredient)";
 
-            for ($i = 0; $i < count($tags_ids); $i++) {
-                $this->setProductTag($res, $tags_ids[$i]);
-            }
+        for ($i = 0; $i < sizeof($ingredients_ids); $i++) {
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindValue(":product", $productId, PDO::PARAM_INT);
+            $stmt->bindValue(":ingredient", $ingredients_ids[$i], PDO::PARAM_INT);
+
+            $stmt->execute();
         }
 
-        if (empty($nutritional_values)) {
-            $query1 = 'SELECT DISTINCT id FROM ' . $this->table_name . ' WHERE name = \'' . $name . '\'';
-            $stmt1 = $this->conn->prepare($query1);
-            $stmt1->execute();
-            $res = $stmt1->fetch(PDO::FETCH_ASSOC);
+        // Query sul prodotto appena creato
+        $query = "SELECT *
+                FROM product
+                WHERE id = :id";
 
-            for ($i = 0; $i < count($nutritional_values); $i++) {
-                $this->setNutritionalValue($res, $tags_ids[$i]);
-            }
-        }
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindValue(":id", $productId, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
     /* API solo paninara

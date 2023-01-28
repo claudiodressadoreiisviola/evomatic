@@ -46,4 +46,33 @@ class Offer
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    
+    public function createOffer($price,$start,$expiry,$description,$products)
+    {
+        $sql = "INSERT INTO offer (price,`start`,`expiry`,`description`)
+        VALUES(:price,:start,:expiry,:description)";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindValue(':price', $price, PDO::PARAM_STR);
+        $stmt->bindValue(':start', $start, PDO::PARAM_STR);
+        $stmt->bindValue(':expiry', $expiry, PDO::PARAM_STR);
+        $stmt->bindValue(':description', $description, PDO::PARAM_STR);
+
+        $stmt->execute();
+
+        $offer_id = $this->conn->lastInsertId();
+
+        $query = "INSERT INTO product_offer(product, offer)
+                VALUES (:product, :offer)";
+
+        for ($i = 0; $i < sizeof($products); $i++) {
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindValue(":product", $products[$i], PDO::PARAM_INT);
+            $stmt->bindValue(":offer", $offer_id, PDO::PARAM_INT);
+
+            $stmt->execute();
+        }
+
+        return $stmt->rowCount();
+    }
 }

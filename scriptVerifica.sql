@@ -218,14 +218,15 @@ VALUES
 
 INSERT INTO `sandwiches`.`user`(name, surname, email, password, active)
 VALUES
-('Mattia', 'Gallo', 'mattia.gallinaro@iisviolamarchesini.edu.it', 'CA71@F', 1),
-('Mattia', 'Zanini', 'mattia.zanini@iisviolamarchesini.edu.it', 'SIUUUUU', 0),
-('Alessio', 'Modonesi', 'alessio.modonesi@iisviolamarchesini.edu.it', 'CACCIOTTI', 1),
-('Cristian', 'Mondini', 'cristian.mondini@iisviolamarchesini.edu.it', 'FORZAROMA', 1),
-('Matteo', 'Formenton', 'matteo.formenton@iisviolamarchesini.edu.it', 'STROPPARE', 1),
-('Mattia', 'Buoso', 'mattia.buoso@iisviolamarchesini.edu.it', 'SKATER', 0),
-('Michael', 'Mantoan', 'michael.mantoan@iisviolamarchesini.edu.it', 'FORTNITE', 1),
-('Francesco', 'Pirra', 'francesco.pirra@iisviolamarchesini.edu.it', 'FORZACANADA', 1);
+('Mattia', 'Gallo', 'mattia.gallinaro@iisviolamarchesini.edu.it', 'CA71@F', 1, 1),
+('Mattia', 'Zanini', 'mattia.zanini@iisviolamarchesini.edu.it', 'SIUUUUU', 0, 1),
+('Alessio', 'Modonesi', 'alessio.modonesi@iisviolamarchesini.edu.it', 'CACCIOTTI', 1, 1),
+('Cristian', 'Mondini', 'cristian.mondini@iisviolamarchesini.edu.it', 'FORZAROMA', 1, 1),
+('Matteo', 'Formenton', 'matteo.formenton@iisviolamarchesini.edu.it', 'STROPPARE', 1, 1),
+('Mattia', 'Buoso', 'mattia.buoso@iisviolamarchesini.edu.it', 'SKATER', 0, 1),
+('Michael', 'Mantoan', 'michael.mantoan@iisviolamarchesini.edu.it', 'FORTNITE', 1, 1),
+('Francesco', 'Pirra', 'francesco.pirra@iisviolamarchesini.edu.it', 'FORZACANADA', 1, 1),
+('admin', 'admin', 'admin', 'admin', 1, 2);
 
 INSERT INTO `sandwiches`.`cart`(`user`, product, quantity)
 VALUES

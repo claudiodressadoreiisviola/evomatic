@@ -120,6 +120,19 @@ class Product
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    
+    public function changeProductActive($product_id,$active){
+        $sql = "UPDATE product
+        SET active = :active
+        where id = :product_id";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindValue(':product_id', $product_id, PDO::PARAM_INT);
+        $stmt->bindValue(':active', $active, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->rowCount();
+    } 
 
     /* API solo paninara
     public function deleteProductFromAllIngredients($id) //Cancella il prodotto nella tabella molti a molti con gli ingredienti.

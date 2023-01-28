@@ -141,6 +141,9 @@ class Product
     //
     //      Gli ingredienti devono già esistere, nel caso si voglia creare un prodotto con nuovi ingredienti
     //       bisogna prima crearli per poi creare il prodotto.
+    //
+    //      $ingredients_ids => array di interi contenente gli id
+    //      $tags_ids => array di interi contenente gli id
     public function createProduct($name, $price, $description, $quantity, $ingredients_ids, $tags_ids, $category, $nutritional_values) //Inserisce un nuovo prodotto.
     {
         // Creazione di nuovi valori nutrizionali

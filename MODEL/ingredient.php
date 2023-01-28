@@ -33,15 +33,15 @@ class Ingredient
 
     public function createIngredient($name, $description) //Inserisce un nuovo ingrediente.
     {
-        $query = "INSERT INTO ingredient i (name, description)
-        VALUES (':name', ':description')";
+        $query = "INSERT INTO ingredient (`name`, `description`)
+        VALUES (:name, :description)";
 
         $stmt = $this->conn->prepare($query);
-        $stmt->bindValue(':name', $name, PDO::PARAM_INT);
-        $stmt->bindValue(':description', $description, PDO::PARAM_INT);
+        $stmt->bindValue(':name', $name, PDO::PARAM_STR);
+        $stmt->bindValue(':description', $description, PDO::PARAM_STR);
         $stmt->execute();
 
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        return $stmt->rowCount();
     }
 
     public function ModifyIngredient($id, $name, $description)
@@ -51,7 +51,7 @@ class Ingredient
         WHERE i.id = :id";
 
         $stmt = $this->conn->prepare($query_name);
-        $stmt->bindValue(':name', $name, PDO::PARAM_INT);
+        $stmt->bindValue(':name', $name, PDO::PARAM_STR);
         $stmt->bindValue(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
 
@@ -60,14 +60,16 @@ class Ingredient
         WHERE i.id = :id";
 
         $stmt = $this->conn->prepare($query_description);
-        $stmt->bindValue(':description', $description, PDO::PARAM_INT);
+        $stmt->bindValue(':description', $description, PDO::PARAM_STR);
         $stmt->bindValue(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
 
         $query_return = "SELECT ingredient.name, ingredient.description
-        FROM ingredient";
+        FROM ingredient
+        WHERE id = :id";
 
         $stmt = $this->conn->prepare($query_return);
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
 
         return $stmt->fetch(PDO::FETCH_ASSOC);

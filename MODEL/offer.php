@@ -93,7 +93,7 @@ class Offer
 
         $stmt_expery = $this->conn->prepare($sql_expery);
         $stmt_expery->bindValue(':id_offer', $id_offer, PDO::PARAM_INT);
-        $stmt_expery->bindValue(':expiry', $expiry, PDO::PARAM_INT);
+        $stmt_expery->bindValue(':expiry', $expiry, PDO::PARAM_STR);
         $stmt_expery->execute();
 
         $sql = "SELECT o.price, o.`start` , o.expiry, o.description 

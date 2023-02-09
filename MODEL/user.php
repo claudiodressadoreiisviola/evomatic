@@ -119,8 +119,7 @@ class User
         if ($user == null)
             return false;
 
-        $sql = "
-        UPDATE user
+        $sql = "UPDATE user
         SET active = 1
         WHERE  id = :id";
 
@@ -130,10 +129,10 @@ class User
         return $stmt->execute();
     }
 
-    public function registerUser($surname, $email, $password, $active)
+    public function registerUser($name, $surname, $email, $password, $year, $section, $schoolYear, $active)
     {
-        $sql = "
-        INSERT INTO `user`
+        // Aggiungo l'utente nella tabella user
+        $sql = "INSERT INTO `user`
         (name, surname, email, password, active)
         VALUES (:name, :surname, :email, :password, :active)";
 
@@ -145,8 +144,71 @@ class User
         $stmt->bindValue(':active', $active, PDO::PARAM_STR);
 
         $stmt->execute();
+        $user = $stmt->lastInsertId();
 
-        return $stmt->rowCount();
+        // Chiamo una funzione per assegnare l'utente ad una classe
+        assignToClass($user, $year, $section, $schoolYear);
+    }
+
+    public function assignToClass($user, $year, $section, $schoolYear)
+    {
+        // Ottengo le classi a cui un determinato utente è iscritto in un determinato anno
+        $sql = "SELECT `user`.name
+        FROM user_class
+        INNER JOIN `user` ON user_class.`user` = `user`.id
+        WHERE `user`.id = :user AND user_class.`year` = :schoolYear";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindValue(':user', $user, PDO::PARAM_INT);
+        $stmt->bindValue(':schoolYear', $schoolYear, PDO::PARAM_STR);
+
+        $stmt->execute();
+
+        // Se l'utente non è iscritto ad alcuna classe
+        if ($stmt->rowCount() == 0)
+        {
+            // Controllo che la classe a cui iscrivere l'utente esista
+            $sql = "SELECT class.id
+            FROM class
+            WHERE class.year = :year AND class.`section` = :section"
+            
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindValue(':year', $year, PDO::PARAM_INT);
+            $stmt->bindValue(':section', $section, PDO::PARAM_STR);
+
+            $stmt->execute();
+
+            // Se la classe non esiste la creo
+            if ($stmt->rowCount() == 0)
+            {
+                $sql = "INSERT INTO class ( `year`, `section` )
+                VALUES ( :year, :section )";
+            
+                $stmt = $this->conn->prepare($sql);
+                $stmt->bindValue(':year', $year, PDO::PARAM_INT);
+                $stmt->bindValue(':section', $section, PDO::PARAM_STR);
+
+                $stmt->execute();
+            }
+
+            // Associo la classe all'utente aggiungendo anche l'anno scolastico
+            $sql = "INSERT INTO user_class ( `user`, class, `year` )
+            VALUES ( :user, (SELECT class.id FROM class WHERE class.`year` = :year AND class.`section` = :section), :schoolYear )"
+            
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindValue(':user', $user, PDO::PARAM_INT);
+            $stmt->bindValue(':schoolYear', $schoolYear, PDO::PARAM_STR);
+            $stmt->bindValue(':year', $year, PDO::PARAM_INT);
+            $stmt->bindValue(':section', $section, PDO::PARAM_STR);
+
+            $stmt->execute();
+
+            return 0;
+        }
+        else
+        {
+            return 0;
+        }
     }
 }
 ?>

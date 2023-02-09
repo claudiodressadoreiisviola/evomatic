@@ -12,7 +12,7 @@ if (empty($data->name) || empty($data->surname) || empty($data->email) || empty(
 
 $product = new Product();
 
-$result = $product->registerUser($name, $surname, $email, $password, $year, $section, $schoolYear, $year);
+$result = $product->registerUser($name, $surname, $email, $password, $year, $section, $schoolYear, $active);
 
 echo json_encode($result);
 ?>

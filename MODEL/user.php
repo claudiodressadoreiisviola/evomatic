@@ -145,7 +145,7 @@ class User
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
         
 
-        if ($user == false)
+        if ($stmt->rowCount() == 0)
         {
             // Aggiungo l'utente nella tabella user
             $sql = "INSERT INTO `user`
@@ -198,7 +198,7 @@ class User
             $class = $stmt->fetch(PDO::FETCH_ASSOC);
 
             // Se la classe non esiste la creo
-            if ($class == false)
+            if ($stmt->rowCount() == 0)
             {
                 $sql = "INSERT INTO class ( `year`, `section` )
                 VALUES ( :year, :section )";

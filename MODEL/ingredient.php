@@ -75,7 +75,7 @@ class Ingredient
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    /*public function getIngredient($id) //Ritorna l'ingrediente in base al suo id.
+    public function getIngredient($id) //Ritorna l'ingrediente in base al suo id.
     {
         $query = "SELECT `name`, `description` FROM ingredient WHERE ingredient.id = :id";
 
@@ -83,7 +83,7 @@ class Ingredient
         $stmt->bindValue(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
-    }*/
+    }
 
     // public function getIngredientAllergens($id) //Ritorna gli allergeni di un ingrediente.
     // {

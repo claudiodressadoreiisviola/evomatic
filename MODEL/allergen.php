@@ -20,7 +20,7 @@ class Allergen
 
     public function getArchiveAllergen() //Ritorna tutti gli allergeni.
     {
-        $query = "SELECT `name` 
+        $query = "SELECT `name`, id
         FROM allergen a 
         WHERE 1=1 
         ORDER BY a.name";

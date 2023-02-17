@@ -23,9 +23,4 @@ for ($i = 0; $i < (count($result)); $i++) {
     array_push($productIngredients, $productIngredient);
 }
 
-if (empty($productIngredients)) {
-    http_response_code(404);
-} else {
-    http_response_code(200);
-    echo json_encode($productIngredients);
-}
+echo json_encode($productIngredients);

@@ -13,6 +13,7 @@ for ($i = 0; $i < (count($result)); $i++) {
         "id" =>  $result[$i]["id"],
         "name" =>  $result[$i]["name"],
         "price" => $result[$i]["price"],
+        "start" => $result[$i]["start"],
         "expiry" => $result[$i]["expiry"],
         "description" => $result[$i]["description"]
     );

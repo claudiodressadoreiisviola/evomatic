@@ -77,7 +77,8 @@ class Ingredient
 
     public function getIngredient($id) //Ritorna l'ingrediente in base al suo id.
     {
-        $query = "SELECT `name`, `description` FROM ingredient WHERE ingredient.id = :id";
+        $query = "SELECT `name`, `description` , price, quantity
+        FROM ingredient WHERE ingredient.id = :id";
 
         $stmt = $this->conn->prepare($query);
         $stmt->bindValue(':id', $id, PDO::PARAM_INT);

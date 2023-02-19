@@ -24,6 +24,7 @@ $productArchiveProduct = array(
     "description" => $result["description"],
     "quantity" => $result["quantity"],
     "nutritional value" => $nutritionalValue,
+    "active" => $result["active"],
 );
 
 if ($result != false) {

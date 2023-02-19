@@ -31,7 +31,8 @@ class Tag
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     
-    public function getTag($id) {
+    public function getTag($id) 
+    {
         $sql = "SELECT `name`
         FROM tag
         WHERE id = :id";

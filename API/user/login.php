@@ -1,6 +1,13 @@
 <?php
 require __DIR__ . '/../../MODEL/user.php';
 header("Content-type: application/json; charset=UTF-8");
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: POST, GET, OPTIONS');
+header('Access-Control-Allow-Headers: Content-Type');
+
+if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+    header('HTTP/1.1 200 OK');
+}
 
 $data = json_decode(file_get_contents("php://input"));
 

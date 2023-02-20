@@ -77,7 +77,7 @@ class Product
 
     public function getProductIngredients($id) //Ritorna gli ingredienti di un prodotto.
     {
-        $query = "SELECT DISTINCT ingredient.id, ingredient.name 
+        $query = "SELECT DISTINCT ingredient.id, ingredient.name ingredient.quantity
         FROM product p 
         INNER JOIN product_ingredient ON p.id = product_ingredient.product 
         INNER JOIN ingredient ON ingredient.id = product_ingredient.ingredient

@@ -31,14 +31,16 @@ class Ingredient
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function createIngredient($name, $description) //Inserisce un nuovo ingrediente.
+    public function createIngredient($name, $description, $price, $quantity) //Inserisce un nuovo ingrediente.
     {
-        $query = "INSERT INTO ingredient (`name`, `description`)
-        VALUES (:name, :description)";
+        $query = "INSERT INTO ingredient (`name`, `description`, price, `quantity`)
+        VALUES (:name, :description, :price, :quantity)";
 
         $stmt = $this->conn->prepare($query);
         $stmt->bindValue(':name', $name, PDO::PARAM_STR);
         $stmt->bindValue(':description', $description, PDO::PARAM_STR);
+        $stmt->bindValue(':price', $price, PDO::PARAM_INT);
+        $stmt->bindValue(':quantity', $quantity, PDO::PARAM_INT);
         $stmt->execute();
 
         return $stmt->rowCount();

@@ -14,6 +14,6 @@ if (empty($data->name) || empty($data->description) || empty($data->price) || em
 
 $ingredient = new Ingredient;
 
-$result = $ingredient->createIngredient($data->name, $data->description);
+$result = $ingredient->createIngredient($data->name, $data->description, $data->price, $data->quantity);
 
 echo json_encode($result);

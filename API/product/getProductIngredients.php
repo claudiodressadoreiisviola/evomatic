@@ -18,7 +18,8 @@ $productIngredients = array();
 for ($i = 0; $i < (count($result)); $i++) {
     $productIngredient = array(
         "id" =>  $result[$i]["id"],
-        "name" => $result[$i]["name"]
+        "name" => $result[$i]["name"],
+        "quantity" => $result[$i]["quantity"]
     );
     array_push($productIngredients, $productIngredient);
 }

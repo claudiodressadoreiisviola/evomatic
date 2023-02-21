@@ -31,7 +31,8 @@ for ($i = 0; $i < (count($result)); $i++) {
         "tags" => $resultTags,
         "ingredients" => $resultIngredients,
         "allergens" => $resultAllergen,
-        "favourite" => $fav
+        "favourite" => $fav,
+        "active" => $result[$i]["active"]
     );
     array_push($productArchiveProducts, $productArchiveProduct);
 }

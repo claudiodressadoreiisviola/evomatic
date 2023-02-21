@@ -111,4 +111,42 @@ class User
 
             return $stmt->rowCount();
     }
+
+    public function activateUser($id)
+    {
+        $user = $this->getUser($id);
+
+        if ($user == null)
+            return false;
+
+        $sql = "
+        UPDATE user
+        SET active = 1
+        WHERE  id = :id";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+
+        return $stmt->execute();
+    }
+
+    public function registerUser($surname, $email, $password, $active)
+    {
+        $sql = "
+        INSERT INTO `user`
+        (name, surname, email, password, active)
+        VALUES (:name, :surname, :email, :password, :active)";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindValue(':name', $name, PDO::PARAM_STR);
+        $stmt->bindValue(':surname', $surname, PDO::PARAM_STR);
+        $stmt->bindValue(':email', $email, PDO::PARAM_STR);
+        $stmt->bindValue(':password', $password, PDO::PARAM_STR);
+        $stmt->bindValue(':active', $active, PDO::PARAM_STR);
+
+        $stmt->execute();
+
+        return $stmt->rowCount();
+    }
 }
+?>

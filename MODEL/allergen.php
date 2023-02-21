@@ -71,11 +71,11 @@ class Allergen
 
     public function createAllergen($name) //Inserisce nella tabella un nuovo allergene.
     {
-        $query = "INSERT INTO allergen a (name) 
+        $query = "INSERT INTO allergen a (`name`) 
         VALUES (':name')";
 
         $stmt = $this->conn->prepare($query);
-        $stmt->bindValue(':name', $name, PDO::PARAM_INT);
+        $stmt->bindValue(':name', $name, PDO::PARAM_STR);
 
         return $stmt->execute();
     }

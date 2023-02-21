@@ -1,5 +1,4 @@
 <?php
-
 spl_autoload_register(function ($class) {
     require __DIR__ . "/../COMMON/$class.php";
 });
@@ -20,7 +19,7 @@ class Product
 
     public function getArchiveProduct() //Ritorna tutti i prodotti.
     {
-        $query = "SELECT p.id as pid, p.name as pname, p.price as price, p.description as `description`, p.quantity as quantity, c.name as category
+        $query = "SELECT p.id as pid, p.name as pname, p.price as price, p.description as `description`, p.quantity as quantity, c.name as category, p.active as active
         FROM product p 
         inner join category c on c.id = p.category
         WHERE 1=1 

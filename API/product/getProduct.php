@@ -33,6 +33,7 @@ $productArchiveProduct = array(
     "quantity" => $result["quantity"],
     "nutritional value" => $nutritionalValue,
     "favourite" => $fav
+    "active" => $result["active"],
 );
 
 if ($result != false) {

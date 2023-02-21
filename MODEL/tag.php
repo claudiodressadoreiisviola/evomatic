@@ -44,4 +44,16 @@ class Tag
 
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+    
+    public function createTag($name) {
+        $sql = "INSERT INTO tag (`name`)
+        VALUES (:tag_name)";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindValue(":tag_name", $name, PDO::PARAM_STR);
+
+        $stmt->execute();
+
+        return $stmt->rowCount();
+    }
 }

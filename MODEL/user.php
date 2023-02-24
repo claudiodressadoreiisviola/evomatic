@@ -129,7 +129,7 @@ class User
         return $stmt->execute();
     }
 
-    public function registerUser($name, $surname, $email, $password, $year, $section, $schoolYear, $active)
+    public function registerUser($name, $surname, $email, $password, $year, $section, $schoolYear, $type, $active)
     {
         // Controllo se ci sono già altri utenti con la stessa mail
         $sql = "SELECT `user`.id
@@ -150,13 +150,14 @@ class User
             // Aggiungo l'utente nella tabella user
             $sql = "INSERT INTO `user`
             ( name, surname, email, password, active )
-            VALUES ( :name, :surname, :email, :password, :active )";
+            VALUES ( :name, :surname, :email, :password, :type, :active )";
             
             $stmt = $this->conn->prepare($sql);
             $stmt->bindValue(':name', $name, PDO::PARAM_STR);
             $stmt->bindValue(':surname', $surname, PDO::PARAM_STR);
             $stmt->bindValue(':email', $email, PDO::PARAM_STR);
             $stmt->bindValue(':password', $password, PDO::PARAM_STR);
+            $stmt->bindValue(':type', $type, PDO::PARAM_INT);
             $stmt->bindValue(':active', $active, PDO::PARAM_INT);
             
             $stmt->execute();

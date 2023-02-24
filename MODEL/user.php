@@ -165,7 +165,7 @@ class User
         }
 
         // Chiamo una funzione per assegnare l'utente ad una classe
-        assignToClass($user, $year, $section, $schoolYear);
+        $this->assignToClass($user, $year, $section, $schoolYear);
     }
 
     public function assignToClass($user, $year, $section, $schoolYear)

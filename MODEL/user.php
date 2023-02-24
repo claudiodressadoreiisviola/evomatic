@@ -161,7 +161,7 @@ class User
             $stmt->bindValue(':active', $active, PDO::PARAM_INT);
             
             $stmt->execute();
-            $user = $stmt->lastInsertId();
+            $user = $this->PDO->lastInsertId();
         }
 
         // Chiamo una funzione per assegnare l'utente ad una classe
@@ -209,7 +209,7 @@ class User
                 $stmt->bindValue(':section', $section, PDO::PARAM_STR);
 
                 $stmt->execute();
-                $class = $stmt->lastInsertId();
+                $class = $this->PDO->lastInsertId();
             }
 
             // Associo la classe all'utente aggiungendo anche l'anno scolastico

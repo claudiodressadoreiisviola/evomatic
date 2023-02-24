@@ -149,7 +149,7 @@ class User
         {
             // Aggiungo l'utente nella tabella user
             $sql = "INSERT INTO `user`
-            ( name, surname, email, password, active )
+            ( name, surname, email, password, type, active )
             VALUES ( :name, :surname, :email, :password, :type, :active )";
             
             $stmt = $this->conn->prepare($sql);

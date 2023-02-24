@@ -188,7 +188,7 @@ class User
             // Controllo che la classe a cui iscrivere l'utente esista
             $sql = "SELECT class.id
             FROM class
-            WHERE class.year = :year AND class.`section` = :section"
+            WHERE class.year = :year AND class.`section` = :section";
             
             $stmt = $this->conn->prepare($sql);
             $stmt->bindValue(':year', $year, PDO::PARAM_INT);
@@ -214,7 +214,7 @@ class User
 
             // Associo la classe all'utente aggiungendo anche l'anno scolastico
             $sql = "INSERT INTO user_class ( `user`, class, `year` )
-            VALUES ( :user, :class, :schoolYear )"
+            VALUES ( :user, :class, :schoolYear )";
             
             $stmt = $this->conn->prepare($sql);
             $stmt->bindValue(':user', $user, PDO::PARAM_INT);

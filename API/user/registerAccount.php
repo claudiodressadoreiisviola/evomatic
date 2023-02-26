@@ -4,6 +4,8 @@ header("Content-type: application/json; charset=UTF-8");
 
 $data = json_decode(file_get_contents("php://input"));
 
+$user = new User;
+
 // Se i dati sono sufficienti e l'utente è di tipo studente
 if (empty($data->year) || empty($data->section) || empty($data->schoolYear) || empty($data->type) || empty($data->name) || empty($data->surname) || empty($data->email) || empty($data->password) || empty($data->active) && $data->type == 1)
 {

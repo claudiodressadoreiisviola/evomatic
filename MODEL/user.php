@@ -226,10 +226,10 @@ class User
         else
         {
             http_response_code(200);
-            return json_encode([ "message" => "L'utente è già iscritto ad una classe nell'anno scolastico corrente"]);
+            return ["message" => "L'utente è già iscritto ad una classe nell'anno scolastico corrente"];
         }
         http_response_code(200);
-        return json_encode([ "message" => "Utente iscritto alla classe correttamente"]);
+        return ["message" => "Utente iscritto alla classe correttamente"];
     }
 }
 ?>

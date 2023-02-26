@@ -227,8 +227,13 @@ class User
         }
         else
         {
-            return 0;
+            http_response_code(200);
+            echo json_encode([ "message" => "L'utente è già iscritto ad una classe nell'anno scolastico corrente"]);
+            die();
         }
+        http_response_code(200);
+        echo json_encode([ "message" => "Utente iscritto alla classe correttamente"]);
+        die();
     }
 }
 ?>

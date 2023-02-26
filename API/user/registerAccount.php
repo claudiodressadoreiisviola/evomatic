@@ -14,7 +14,7 @@ if (empty($data->type) || empty($data->name) || empty($data->surname) || empty($
     {
         if (empty($data->year) || empty($data->section) || empty($data->schoolYear))
         {
-            http_response_code(400):
+            http_response_code(400);
             return json_encode(["message" => "Dati insufficienti per utente di tipo studente"]);
             die();
         }

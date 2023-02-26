@@ -165,7 +165,7 @@ class User
         }
 
         // Chiamo una funzione per assegnare l'utente ad una classe
-        $this->assignToClass($user, $year, $section, $schoolYear);
+        return $this->assignToClass($user, $year, $section, $schoolYear);
     }
 
     public function assignToClass($user, $year, $section, $schoolYear)
@@ -222,18 +222,14 @@ class User
             $stmt->bindValue(':class', $class, PDO::PARAM_INT);
 
             $stmt->execute();
-
-            return 0;
         }
         else
         {
             http_response_code(200);
-            echo json_encode([ "message" => "L'utente è già iscritto ad una classe nell'anno scolastico corrente"]);
-            die();
+            return json_encode([ "message" => "L'utente è già iscritto ad una classe nell'anno scolastico corrente"]);
         }
         http_response_code(200);
-        echo json_encode([ "message" => "Utente iscritto alla classe correttamente"]);
-        die();
+        return json_encode([ "message" => "Utente iscritto alla classe correttamente"]);
     }
 }
 ?>

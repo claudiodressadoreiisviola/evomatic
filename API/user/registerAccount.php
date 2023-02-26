@@ -12,7 +12,12 @@ if (empty($data->name) || empty($data->surname) || empty($data->email) || empty(
 
 $user = new User();
 
-$result = $user->registerUser($data->name, $data->surname, $data->email, $data->password, $data->year, $data->section, $data->schoolYear, $data->type, $data->active);
+try {
+    $result = $user->registerUser($data->name, $data->surname, $data->email, $data->password, $data->year, $data->section, $data->schoolYear, $data->type, $data->active);
+} catch (\Throwable $th) {
+    echo json_encode(["message" => "Errore nella registrazione dell'utente"]);
+    die();
+}
 
 echo json_encode($result);
 ?>

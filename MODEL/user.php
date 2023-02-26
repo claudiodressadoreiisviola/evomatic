@@ -129,7 +129,7 @@ class User
         return $stmt->execute();
     }
 
-    public function registerUser($name, $surname, $email, $password, $year, $section, $schoolYear, $type, $active)
+    public function registerStudent($name, $surname, $email, $password, $year, $section, $schoolYear, $type, $active)
     {
         // Controllo se ci sono già altri utenti con la stessa mail
         $sql = "SELECT `user`.id
@@ -163,9 +163,53 @@ class User
             $stmt->execute();
             $user = $this->conn->lastInsertId();
         }
-
+        
         // Chiamo una funzione per assegnare l'utente ad una classe
         return $this->assignToClass($user, $year, $section, $schoolYear);
+    }
+
+    public function registerBackofficeUser($name, $surname, $email, $password, $type, $active)
+    {
+        // Controllo se ci sono già altri utenti con la stessa mail
+        $sql = "SELECT `user`.id
+        FROM user
+        WHERE `user`.email = :email";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindValue(':email', $email, PDO::PARAM_STR);
+
+        $stmt->execute();
+
+        // Creo una variabile per contenere l'id dell'utente creato
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+
+        if ($stmt->rowCount() == 0)
+        {
+            // Aggiungo l'utente nella tabella user
+            $sql = "INSERT INTO `user`
+            ( name, surname, email, password, type, active )
+            VALUES ( :name, :surname, :email, :password, :type, :active )";
+            
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindValue(':name', $name, PDO::PARAM_STR);
+            $stmt->bindValue(':surname', $surname, PDO::PARAM_STR);
+            $stmt->bindValue(':email', $email, PDO::PARAM_STR);
+            $stmt->bindValue(':password', $password, PDO::PARAM_STR);
+            $stmt->bindValue(':type', $type, PDO::PARAM_INT);
+            $stmt->bindValue(':active', $active, PDO::PARAM_INT);
+            
+            $stmt->execute();
+            $user = $this->conn->lastInsertId();
+
+            http_response_code(200);
+            return ["message" => "Utente backoffice creato con successo"];
+        }
+        else
+        {
+            http_response_code(200);
+            return ["message" => "Utente backoffice già esistente"];
+        }
     }
 
     public function assignToClass($user, $year, $section, $schoolYear)

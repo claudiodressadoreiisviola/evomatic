@@ -18,7 +18,7 @@ class ErrorHandler
     public static function handleException(Throwable $e): void
     {
         $sql = "INSERT INTO monitored_exceptions me ( code, message, file, line )
-        VALUES ( :code, :message, :file, :line )"
+        VALUES ( :code, :message, :file, :line )";
 
         $stmt = $this->conn->prepare($query);
         $stmt->bindValue(':code', $e->getCode(), PDO::PARAM_INT);

@@ -163,6 +163,16 @@ CREATE TABLE `sandwiches`.category (
 	name                 VARCHAR(50)  NOT NULL
 );
 
+-- Active: 1677533444659@@claudiodressadore.net@3306@sandwiches
+/* 2023-02-27 22:33:10 [339 ms] */ 
+CREATE TABLE exception(  
+    id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    code INT NOT NULL,
+    message VARCHAR(200) NOT NULL,
+    file VARCHAR(200) NOT NULL,
+    line INT NOT NULL
+);
+
 INSERT INTO `sandwiches`.break(`time`)
 VALUES
 ('09:25'),

@@ -30,4 +30,30 @@ class Tag
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    
+    public function getTag($id) 
+    {
+        $sql = "SELECT `name`
+        FROM tag
+        WHERE id = :id";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindValue(":id", $id, PDO::PARAM_INT);
+
+        $stmt->execute();
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+    
+    public function createTag($name) {
+        $sql = "INSERT INTO tag (`name`)
+        VALUES (:tag_name)";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindValue(":tag_name", $name, PDO::PARAM_STR);
+
+        $stmt->execute();
+
+        return $stmt->rowCount();
+    }
 }

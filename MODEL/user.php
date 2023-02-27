@@ -117,7 +117,9 @@ class User
         $user = $this->getUser($id);
 
         if ($user == null)
+        {
             return false;
+        }
 
         $sql = "UPDATE user
         SET active = 1
@@ -128,7 +130,7 @@ class User
 
         return $stmt->execute();
     }
-
+    
     public function registerStudent($name, $surname, $email, $password, $year, $section, $schoolYear, $type, $active)
     {
         // Controllo se ci sono già altri utenti con la stessa mail

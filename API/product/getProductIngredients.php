@@ -18,14 +18,10 @@ $productIngredients = array();
 for ($i = 0; $i < (count($result)); $i++) {
     $productIngredient = array(
         "id" =>  $result[$i]["id"],
-        "name" => $result[$i]["name"]
+        "name" => $result[$i]["name"],
+        "quantity" => $result[$i]["quantity"]
     );
     array_push($productIngredients, $productIngredient);
 }
 
-if (empty($productIngredients)) {
-    http_response_code(404);
-} else {
-    http_response_code(200);
-    echo json_encode($productIngredients);
-}
+echo json_encode($productIngredients);

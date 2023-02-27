@@ -88,7 +88,7 @@ CREATE  TABLE `sandwiches`.`user` (
 	surname              VARCHAR(64)  NOT NULL,
 	email                VARCHAR(128)  NOT NULL,
 	password             VARCHAR(128)  NOT NULL,
-	type                 INT UNSIGNED NOT NULL,
+	`type`               INT UNSIGNED NOT NULL,
 	active               BOOLEAN  NOT NULL DEFAULT (TRUE)    
  );
  
@@ -226,7 +226,7 @@ VALUES
 ('bevanda'),
 ('piadina');
 
-INSERT INTO `sandwiches`.`user`(name, surname, email, password, active)
+INSERT INTO `sandwiches`.`user`(name, surname, email, password, active, `type`)
 VALUES
 ('Mattia', 'Gallo', 'mattia.gallinaro@iisviolamarchesini.edu.it', 'CA71@F', 1, 1),
 ('Mattia', 'Zanini', 'mattia.zanini@iisviolamarchesini.edu.it', 'SIUUUUU', 0, 1),
@@ -414,4 +414,4 @@ ALTER TABLE `sandwiches`.product_offer  ADD CONSTRAINT fk_product_offer_offer FO
 
 ALTER TABLE `sandwiches`.product ADD CONSTRAINT fk_product_category FOREIGN KEY ( category ) REFERENCES `sandwiches`.category ( id );
 
-ALTER TABLE `sandwiches`.`user` ADD CONSTRAINT fk_user_type FOREIGN KEY ( type ) REFERENCES `sandwiches`.type ( id );
+ALTER TABLE `sandwiches`.`user` ADD CONSTRAINT fk_user_type FOREIGN KEY ( `type` ) REFERENCES `sandwiches`.`type` ( id );

@@ -1,5 +1,4 @@
 <?php
-
 spl_autoload_register(function ($class) {
     require __DIR__ . "/../COMMON/$class.php";
 });
@@ -20,7 +19,7 @@ class Product
 
     public function getArchiveProduct() //Ritorna tutti i prodotti.
     {
-        $query = "SELECT p.id as pid, p.name as pname, p.price as price, p.description as `description`, p.quantity as quantity, c.name as category
+        $query = "SELECT p.id as pid, p.name as pname, p.price as price, p.description as `description`, p.quantity as quantity, c.name as category, p.active as active
         FROM product p 
         inner join category c on c.id = p.category
         WHERE 1=1 
@@ -49,7 +48,7 @@ class Product
 
     public function getProduct($id) //Ritorna il prodotto in base al suo id.
     {
-        $query = "SELECT `name` , price, `description`, quantity
+        $query = "SELECT `name` , price, `description`, quantity, active
         FROM product p 
         WHERE p.id = :id";
 
@@ -77,7 +76,7 @@ class Product
 
     public function getProductIngredients($id) //Ritorna gli ingredienti di un prodotto.
     {
-        $query = "SELECT DISTINCT ingredient.id, ingredient.name 
+        $query = "SELECT DISTINCT ingredient.id, ingredient.name, ingredient.quantity
         FROM product p 
         INNER JOIN product_ingredient ON p.id = product_ingredient.product 
         INNER JOIN ingredient ON ingredient.id = product_ingredient.ingredient

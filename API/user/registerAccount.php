@@ -4,7 +4,7 @@ header("Content-type: application/json; charset=UTF-8");
 
 $data = json_decode(file_get_contents("php://input"));
 
-$user = new User;
+$user = new User();
 
 // Se i dati sono sufficienti per un utente di base
 if (empty($data->type) || empty($data->name) || empty($data->surname) || empty($data->email) || empty($data->password) || empty($data->active))

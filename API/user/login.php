@@ -1,9 +1,6 @@
 <?php
 require __DIR__ . '/../../MODEL/user.php';
 header("Content-type: application/json; charset=UTF-8");
-header("Access-Control-Allow-Origin: *"):
-header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
-header("Access-Control-Allow-Headers: Content-Type");
 
 $data = json_decode(file_get_contents("php://input"));
 
@@ -14,11 +11,25 @@ if (empty($data->email) || empty($data->password)) {
 }
 
 $user = new User();
-$id = $user->login($data->email, $data->password);
 
-if ($id > 0) {
-    echo json_encode($id);
-} else {
+try
+{
+    $id = $user->login($data->email, $data->password);
+}
+catch (Exception $ex)
+{
+    echo json_encode(["message" => "Errore nell'esecuzione del login"]);
+}
+catch (Error $err)
+{
+    echo json_encode(["message" => "Errore grave nell'esecuzione, contattare l'amministratore di sistema"]);
+}
+
+if ($id === false) {
     http_response_code(400);
-    echo json_encode(["id" => "-1"]);
+    echo json_encode(["id" => "-1", "message" => "Nessun utente trovato con le credenziali fornite"]);
+}
+else
+{
+    echo json_encode($id);
 }

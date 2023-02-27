@@ -1,4 +1,12 @@
 <?php
+
+spl_autoload_register(function ($class) {
+    require __DIR__ . "/../COMMON/$class.php";
+});
+
+set_exception_handler("errorHandler::handleException");
+set_error_handler("errorHandler::handleError");
+
 require __DIR__ . '/../../MODEL/user.php';
 header("Content-type: application/json; charset=UTF-8");
 
@@ -12,18 +20,7 @@ if (empty($data->email) || empty($data->password)) {
 
 $user = new User();
 
-try
-{
-    $id = $user->login($data->email, $data->password);
-}
-catch (Exception $ex)
-{
-    echo json_encode(["message" => "Errore nell'esecuzione del login"]);
-}
-catch (Error $err)
-{
-    echo json_encode(["message" => "Errore grave nell'esecuzione, contattare l'amministratore di sistema"]);
-}
+$id = $user->login($data->email, $data->password);
 
 if ($id === false) {
     http_response_code(400);

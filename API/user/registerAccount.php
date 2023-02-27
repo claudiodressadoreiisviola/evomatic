@@ -1,4 +1,12 @@
 <?php
+
+spl_autoload_register(function ($class) {
+    require __DIR__ . "/../COMMON/$class.php";
+});
+
+set_exception_handler("errorHandler::handleException");
+set_error_handler("errorHandler::handleError");
+
 require __DIR__ . '/../../MODEL/user.php';
 header("Content-type: application/json; charset=UTF-8");
 
@@ -30,17 +38,8 @@ else
         else
         {
             // Provo a registrare lo studente
-            try
-            {
-                $result = $user->registerStudent($data->name, $data->surname, $data->email, $data->password, $data->year, $data->section, $data->schoolYear, $data->type, $data->active);
-            }
-            // Se non ci riesco notifico il client dell'errore
-            catch (Exception $ex)
-            {
-                http_response_code(500);
-                echo json_encode(["message" => "Errore durante la registrazione dello studente"]);
-                die();
-            }
+            $result = $user->registerStudent($data->name, $data->surname, $data->email, $data->password, $data->year, $data->section, $data->schoolYear, $data->type, $data->active);
+
             // Se ci riesco ritorno il messaggio inviato dalla funzione registerStudent()
             echo json_encode($result);
             die();
@@ -50,17 +49,8 @@ else
     else
     {
         // Provo a registrare l'utente backoffice
-        try
-        {
-            $result = $user->registerBackofficeUser($data->name, $data->surname, $data->email, $data->password, $data->type, $data->active);
-        }
-        // Se non ci riesco notifico il client dell'errore
-        catch (Exception $ex)
-        {
-            http_response_code(500);
-            echo json_encode(["message" => "Errore durante la registrazione dell'utente"]);
-            die();
-        }
+        $result = $user->registerBackofficeUser($data->name, $data->surname, $data->email, $data->password, $data->type, $data->active);
+
         // Se ci riesco ritorno il messaggio inviato dalla funzione registerBackofficeUser()
         echo json_encode($result);
         die();

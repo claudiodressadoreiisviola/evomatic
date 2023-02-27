@@ -15,7 +15,7 @@ if (empty($data->type) || empty($data->name) || empty($data->surname) || empty($
         if (empty($data->year) || empty($data->section) || empty($data->schoolYear))
         {
             http_response_code(400);
-            return json_encode(["message" => "Dati insufficienti per utente di tipo studente"]);
+            echo json_encode(["message" => "Dati insufficienti per utente di tipo studente"]);
             die();
         }
         // Se i dati sono sufficienti
@@ -30,11 +30,11 @@ if (empty($data->type) || empty($data->name) || empty($data->surname) || empty($
             catch (\Throwable $th)
             {
                 http_response_code(500);
-                return json_encode(["message" => "Errore durante la registrazione dello studente"]);
+                echo json_encode(["message" => "Errore durante la registrazione dello studente"]);
                 die();
             }
             // Se ci riesco ritorno il messaggio inviato dalla funzione registerStudent()
-            return json_encode($result);
+            echo json_encode($result);
             die();
         }
     }
@@ -50,11 +50,11 @@ if (empty($data->type) || empty($data->name) || empty($data->surname) || empty($
         catch (\Throwable $th)
         {
             http_response_code(500);
-            return json_encode(["message" => "Errore durante la registrazione dell'utente"]);
+            echo json_encode(["message" => "Errore durante la registrazione dell'utente"]);
             die();
         }
         // Se ci riesco ritorno il messaggio inviato dalla funzione registerBackofficeUser()
-        return json_encode($result);
+        echo json_encode($result);
         die();
     }
 
@@ -63,7 +63,7 @@ if (empty($data->type) || empty($data->name) || empty($data->surname) || empty($
 else
 {
     http_response_code(400);
-    return json_encode(["message" => "Dati insufficienti o non corretti per la creazione di un utente"]);
+    echo json_encode(["message" => "Dati insufficienti o non corretti per la creazione di un utente"]);
     die();
 }
 ?>

@@ -6,12 +6,20 @@ $data = json_decode(file_get_contents("php://input"));
 
 $user = new User();
 
-// Se i dati sono sufficienti per un utente di base
+// Se i dati sono insufficienti per un utente di base
 if (empty($data->type) || empty($data->name) || empty($data->surname) || empty($data->email) || empty($data->password) || empty($data->active))
+{
+    http_response_code(400);
+    echo json_encode(["message" => "Dati insufficienti o non corretti per la creazione di un utente"]);
+    die();
+}
+// Se i dati di base sono sufficienti
+else
 {
     // Se l'utente è di tipo studente
     if ($data->type == 1)
     {
+        // Se i dati per un utente studente sono insufficienti
         if (empty($data->year) || empty($data->section) || empty($data->schoolYear))
         {
             http_response_code(400);
@@ -27,7 +35,7 @@ if (empty($data->type) || empty($data->name) || empty($data->surname) || empty($
                 $result = $user->registerStudent($data->name, $data->surname, $data->email, $data->password, $data->year, $data->section, $data->schoolYear, $data->type, $data->active);
             }
             // Se non ci riesco notifico il client dell'errore
-            catch (\Throwable $th)
+            catch (Exception $ex)
             {
                 http_response_code(500);
                 echo json_encode(["message" => "Errore durante la registrazione dello studente"]);
@@ -47,7 +55,7 @@ if (empty($data->type) || empty($data->name) || empty($data->surname) || empty($
             $result = $user->registerBackofficeUser($data->name, $data->surname, $data->email, $data->password, $data->type, $data->active);
         }
         // Se non ci riesco notifico il client dell'errore
-        catch (\Throwable $th)
+        catch (Exception $ex)
         {
             http_response_code(500);
             echo json_encode(["message" => "Errore durante la registrazione dell'utente"]);
@@ -57,13 +65,5 @@ if (empty($data->type) || empty($data->name) || empty($data->surname) || empty($
         echo json_encode($result);
         die();
     }
-
-}
-// Se i dati do base non sono sufficienti
-else
-{
-    http_response_code(400);
-    echo json_encode(["message" => "Dati insufficienti o non corretti per la creazione di un utente"]);
-    die();
 }
 ?>

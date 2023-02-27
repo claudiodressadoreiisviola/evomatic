@@ -1,7 +1,7 @@
 <?php
 
 spl_autoload_register(function ($class) {
-    require __DIR__ . "/../../../COMMON/$class.php";
+    require __DIR__ . "/../../COMMON/$class.php";
 });
 
 set_exception_handler("errorHandler::handleException");

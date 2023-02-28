@@ -2,7 +2,7 @@
 require __DIR__ . '/../../../MODEL/ingredient.php';
 header("Content-type: application/json; charset=UTF-8");
 
-$data = json_decode(file_get_contents("php://input"));-
+$data = json_decode(file_get_contents("php://input"));
 
 
 if (empty($data->name) || empty($data->description) || empty($data->price) || empty($data->quantity)) {
